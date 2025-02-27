@@ -1,3 +1,5 @@
+import '../styles/globals.css'
+
 export const metadata = {
   title: 'Basketball Score Ending Game',
   description: 'Track NBA quarter scores and pick your winning slot!',

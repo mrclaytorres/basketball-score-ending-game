@@ -8,6 +8,11 @@ export default function HomePage() {
           View Scores
         </button>
       </a>
+      <a href="/slots">
+        <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+          Select Your Slot
+        </button>
+      </a>
     </div>
   );
 }
