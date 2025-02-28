@@ -1,5 +1,15 @@
 # Basketball Score Ending Game
 
+## Database
+For the database, we will be using MongoDB
+
+#### Install Dependencies
+`> npm install next-auth bcryptjs mongoose`  
+
+##### Docker
+We will be using Docker to run MongoDB  
+`> docker run -d -p 27017:27017 --name mongodb mongo`
+
 ## Backend
 The backend runs on Python with FastAPI to fetch scores using nba_api package.
 

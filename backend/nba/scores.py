@@ -19,12 +19,18 @@ def get_nba_scores():
         q4scoreAway = game['awayTeam']['periods'][3]['score'] + q3scoreAway
         q4scoreHome = game['homeTeam']['periods'][3]['score'] + q3scoreHome
 
-        q1 = f"{max(game['awayTeam']['periods'][0]['score'], game['homeTeam']['periods'][0]['score'])} - {min(game['awayTeam']['periods'][0]['score'], game['homeTeam']['periods'][0]['score'])}"
-        q2 = f"{max(q2scoreAway, q2scoreHome)} - {min(q2scoreAway, q2scoreHome)}"
-        q3 = f"{max(q3scoreAway, q3scoreHome)} - {min(q3scoreAway, q3scoreHome)}"
-        q4 = f"{max(q4scoreAway, q4scoreHome)} - {min(q4scoreAway, q4scoreHome)}"
+        # q1 = f"{max(game['awayTeam']['periods'][0]['score'], game['homeTeam']['periods'][0]['score'])} - {min(game['awayTeam']['periods'][0]['score'], game['homeTeam']['periods'][0]['score'])}"
+        # q2 = f"{max(q2scoreAway, q2scoreHome)} - {min(q2scoreAway, q2scoreHome)}"
+        # q3 = f"{max(q3scoreAway, q3scoreHome)} - {min(q3scoreAway, q3scoreHome)}"
+        # q4 = f"{max(q4scoreAway, q4scoreHome)} - {min(q4scoreAway, q4scoreHome)}"
         
+        q1 = {"teamA": {game['awayTeam']['periods'][0]['score']}, "teamB": {game['homeTeam']['periods'][0]['score']}}
+        q2 = {"teamA": {q2scoreAway}, "teamB": {q2scoreHome}}
+        q3 = {"teamA": {q3scoreAway}, "teamB": {q3scoreHome}}
+        q4 = {"teamA": {q4scoreAway}, "teamB": {q4scoreHome}}
+
         scores.append({
+            'id': game['gameId'],
             'teamA': teamA,
             'teamB': teamB,
             'q1': q1,
@@ -32,5 +38,7 @@ def get_nba_scores():
             'q3': q3,
             'q4': q4
         })
+
+        pprint.pprint(scores)
 
     return scores

@@ -4,7 +4,7 @@ import dbConnect from '@/lib/db';
 import User from '@/models/User';
 import bcrypt from 'bcryptjs';
 
-export default NextAuth({
+export const authOptions = {
   session: {
     strategy: 'jwt',
   },
@@ -28,4 +28,6 @@ export default NextAuth({
   pages: {
     signIn: '/auth/login',
   }
-});
+};
+
+export default NextAuth(authOptions);
