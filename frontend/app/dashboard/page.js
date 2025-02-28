@@ -14,7 +14,19 @@ export default async function DashboardPage() {
       'Content-Type': 'application/json',
     },
   });
-  const games = await res.json();
+  
+  // Check for successful response
+  let games = [];
+  if (res.ok) {
+    games = await res.json();
+  } else {
+    console.error('Failed to fetch games:', res.status, res.statusText);
+  }
+
+  // Ensure games is an array
+  if (!Array.isArray(games)) {
+    games = [];
+  }
 
   return (
     <div>

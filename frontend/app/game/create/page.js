@@ -1,18 +1,31 @@
+"use client";
+
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { redirect } from 'next/navigation';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default async function GameCreatePage() {
-  const session = await getServerSession(authOptions);
-
-  if (!session) {
-    redirect('/auth/login');
-  }
-
+export default function GameCreatePage() {
+  const [loading, setLoading] = useState(true);
   const [gameName, setGameName] = useState('');
   const router = useRouter();
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const session = await getServerSession(authOptions);
+
+      if (!session) {
+        router.push('/auth/login');
+      } else {
+        setLoading(false);
+      }
+    };
+
+    checkSession();
+  }, [router]);
+
+  if (loading) return <p>Loading...</p>;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
