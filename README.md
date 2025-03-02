@@ -8,7 +8,7 @@ For the database, we will be using MongoDB
 
 ##### Docker
 We will be using Docker to run MongoDB  
-`> docker run -d -p 27017:27017 --name mongodb mongo`
+`> docker run -d -p 27017:27017 --name basketball-game mongo`
 
 ## Backend
 The backend runs on Python with FastAPI to fetch scores using nba_api package.
