@@ -4,6 +4,9 @@ export default {
     "./app/layout.js",
     "./app/scores/**/*.{js,ts,jsx,tsx}",
     "./app/slots/**/*.{js,ts,jsx,tsx}",
+    "./app/components/**/*.{js,ts,jsx,tsx}",
+    "./app/dashboard/**/*.{js,ts,jsx,tsx}",
+    "./app/upcoming-games/**/*.{js,ts,jsx,tsx}",
     "./styles/globals.css"
   ],
   theme: {

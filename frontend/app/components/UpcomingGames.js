@@ -9,7 +9,9 @@ export default function UpcomingGames() {
     team: "",
     sort: "asc",
     page: 1,
-    limit: 5,
+    limit: 10,
+    start_date: "",
+    end_date: ""
   });
 
   useEffect(() => {
@@ -22,9 +24,11 @@ export default function UpcomingGames() {
             sort_order: filters.sort,
             page: filters.page,
             limit: filters.limit,
+            start_date: filters.start_date,
+            end_date: filters.end_date
           },
         });
-        setGames(response.data.games);
+        setGames(response.data.games.upcoming_games);
         console.log(response.data)
       } catch (error) {
         console.error("Error fetching games:", error);
@@ -55,6 +59,27 @@ export default function UpcomingGames() {
         >
           <option value="asc">Oldest First</option>
           <option value="desc">Newest First</option>
+        </select>
+        <input
+          type="date"
+          value={filters.start_date}
+          onChange={(e) => setFilters({ ...filters, start_date: e.target.value })}
+          className="border p-2"
+        />
+        <input
+          type="date"
+          value={filters.end_date}
+          onChange={(e) => setFilters({ ...filters, end_date: e.target.value })}
+          className="border p-2"
+        />
+        <select
+          value={filters.limit}
+          onChange={(e) => setFilters({ ...filters, limit: Number(e.target.value) })}
+          className="border p-2"
+        >
+          {[10, 25, 50, 100, 500].map((limit) => (
+            <option key={limit} value={limit}>{limit} per page</option>
+          ))}
         </select>
       </div>
 
