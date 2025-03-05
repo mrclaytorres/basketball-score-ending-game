@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 
 export default function UpcomingGames() {
@@ -13,6 +14,8 @@ export default function UpcomingGames() {
     start_date: "",
     end_date: ""
   });
+
+  const router = useRouter();
 
   useEffect(() => {
     const fetchGames = async () => {
@@ -29,7 +32,7 @@ export default function UpcomingGames() {
           },
         });
         setGames(response.data.games.upcoming_games);
-        console.log(response.data)
+
       } catch (error) {
         console.error("Error fetching games:", error);
       }
@@ -38,6 +41,10 @@ export default function UpcomingGames() {
 
     fetchGames();
   }, [filters]);
+
+  const handleCreateGame = (game) => {
+    router.push(`/game/create?gameId=${game.GAME_ID}&homeTeam=${game.HOME_TEAM_ABBREVIATION}&awayTeam=${game.AWAY_TEAM_ABBREVIATION}`);
+  };
 
   return (
     <div className="p-4">
@@ -90,9 +97,14 @@ export default function UpcomingGames() {
         <ul className="list-disc pl-5">
           {games.length > 0 ? (
             games.map((game) => (
-              <li key={game.GAME_ID} className="mb-2">
-                <span className="font-bold">{game.GAME_DATE}:</span>{" "}
-                {game.HOME_TEAM_ABBREVIATION} vs {game.AWAY_TEAM_ABBREVIATION}
+              <li key={game.GAME_ID} className="mb-2 flex items-center justify-between">
+                <span className="font-bold">{game.GAME_DATE}:{" "}{game.HOME_TEAM_ABBREVIATION} vs {game.AWAY_TEAM_ABBREVIATION}</span>
+                <button
+                  onClick={() => handleCreateGame(game)}
+                  className="ml-4 p-2 bg-blue-500 text-white rounded"
+                >
+                  Create Betting Game
+                </button>
               </li>
             ))
           ) : (
