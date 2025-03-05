@@ -23,22 +23,13 @@ def consolidate_games(games_data):
     return games
 
 def get_upcoming_games(
-    start_date: str | None = None,
-    end_date: str | None = None,
-    team_abbreviation: str | None = None,
-    sort_order: str = "asc",
-    page: int = 1, 
-    limit: int = 10):
+    start_date,
+    end_date,
+    team_abbreviation,
+    sort_order,
+    page, 
+    limit):
     
-    today = datetime.today().strftime("%Y-%m-%d")
-    print(start_date)
-    print(end_date)
-    # Ensure we are working with strings, not Query objects
-    start_date = start_date if start_date is not None else today
-    end_date = end_date if end_date is not None else (datetime.today() + timedelta(days=7)).strftime("%Y-%m-%d")
-    
-    print(start_date)
-    print(end_date)
     # Fetch NBA schedule data and consolidate into one array
     games_data = get_nba_schedule()
     consolidated_games = consolidate_games(games_data)
