@@ -16,36 +16,34 @@ export default async function handler(req, res) {
 
   await dbConnect();
 
+  const { gameId, slot } = req.body;
+  const userId = session.user.id;
+
   try {
-    const { gameId, selectedSlots } = req.body;
-
-    if (!gameId) {
-      return res.status(400).json({ message: 'Missing gameId' });
-    }
-
     const game = await Game.findById(gameId);
-    if (!game) {
-      return res.status(404).json({ message: 'Game not found' });
-    }
+    if (!game) return res.status(404).json({ message: "Game not found" });
 
     // Get the current date in YYYY-MM-DD format in EST
     const options = { timeZone: "America/New_York", year: "numeric", month: "2-digit", day: "2-digit" };
     const formatter = new Intl.DateTimeFormat("en-CA", options); // "en-CA" ensures YYYY-MM-DD format
     const parts = formatter.formatToParts(new Date());
     const currentDateEST = `${parts[0].value}-${parts[2].value}-${parts[4].value}`;
-
+    
     if (game.gameDate < currentDateEST) return res.status(400).json({ message: "Game has already started" });
 
-    if (gameId) {
-      game.slots = selectedSlots.map((s) => ({
-        slot: s.slot,
-        userId: s.userId,
-      }));
+    const slotIndex = game.slots.findIndex((s) => s.slot === slot);
+    if (slotIndex === -1) return res.status(404).json({ message: "Slot not found" });
+
+    // Only allow game creator or the player who owns the slot to withdraw
+    if (game.createdBy.toString() !== userId && game.slots[slotIndex].userId.toString() !== userId) {
+      return res.status(403).json({ message: "Not authorized to withdraw this slot" });
     }
-    
+
+    game.slots.splice(slotIndex, 1); // Remove the slot
     await game.save();
-    res.status(200).json({ message: 'Game updated successfully', game });
+
+    res.status(200).json({ message: "Slot withdrawn successfully", game });
   } catch (error) {
-    res.status(500).json({ message: 'Failed to update game', error });
+    res.status(500).json({ message: "Failed to withdraw slot", error });
   }
 }

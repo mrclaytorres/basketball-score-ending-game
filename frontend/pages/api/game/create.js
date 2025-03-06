@@ -31,7 +31,7 @@ export default async function handler(req, res) {
     const newGame = new Game({ 
       name,
       createdBy,
-      slots: Array(100).fill('')  // Initialize 100 slots
+      slots: [],
     });
     await newGame.save();
     console.log("Game successfully created:", newGame);

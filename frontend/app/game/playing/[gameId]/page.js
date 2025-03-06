@@ -11,6 +11,7 @@ export default function PlayGame() {
   const [game, setGame] = useState(null);
   const [selectedSlots, setSelectedSlots] = useState([]);
   const [user, setUser] = useState(null);
+  const [gameStarted, setGameStarted] = useState(false);
 
   // Fetch game data when the page loads
   useEffect(() => {
@@ -21,6 +22,14 @@ export default function PlayGame() {
           const data = await res.json();
           setGame(data);
           setSelectedSlots(data.slots || []);
+          
+          // Check if game has started (compare gameDate with today)
+          const options = { timeZone: "America/New_York", year: "numeric", month: "2-digit", day: "2-digit" };
+          const formatter = new Intl.DateTimeFormat("en-CA", options); // "en-CA" ensures YYYY-MM-DD format
+          const parts = formatter.formatToParts(new Date());
+          const currentDateEST = `${parts[0].value}-${parts[2].value}-${parts[4].value}`;
+          setGameStarted(data.gameDate <= currentDateEST);
+
           console.log(data)
         } else {
           console.error("Game not found");
@@ -60,7 +69,6 @@ export default function PlayGame() {
 
     const updatedSlots = [...selectedSlots, { slot, userId: user.id }]; // Convert to string
     setSelectedSlots(updatedSlots);
-    console.log('selectedSlots',selectedSlots);
 
     try {
       const res = await fetch("/api/game/updateslots", {
@@ -78,8 +86,61 @@ export default function PlayGame() {
       console.error("Error updating slot selection:", error);
     }
   };
+
+  // Function to withdraw a slot
+  const handleWithdrawSlot = async (slot) => {
+    if (gameStarted) {
+      alert("The game has started. Slots cannot be withdrawn.");
+      return;
+    }
+
+    const slotToWithdraw = selectedSlots.find((s) => s.slot === slot);
+
+    if (!slotToWithdraw) {
+      alert("Slot not found.");
+      return;
+    }
+
+    if (slotToWithdraw.userId !== user.id && game.createdBy !== user.id) {
+      alert("You do not have permission to withdraw this slot.");
+      return;
+    }
+
+    const updatedSlots = selectedSlots.filter((s) => s.slot !== slot);
+    setSelectedSlots(updatedSlots);
+
+    try {
+      const res = await fetch("/api/game/withdrawslot", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ gameId, slot }),
+      });
+
+      if (!res.ok) console.error("Failed to withdraw slot.");
+    } catch (error) {
+      console.error("Error withdrawing slot:", error);
+    }
+  };
   
   if (!game) return <p className="text-center text-white">Loading game...</p>;
+  
+  const canWithdraw = (s) => {
+    if (!user || !game) return false; // Ensure data is available before checking
+
+    const isSlotOwner = s.userId?.toString() === user.id?.toString();
+    const isGameCreator = game.createdBy?.toString() === user.id?.toString();
+    
+    // Check if the game has started
+    const options = { timeZone: "America/New_York", year: "numeric", month: "2-digit", day: "2-digit" };
+    const formatter = new Intl.DateTimeFormat("en-CA", options); // "en-CA" ensures YYYY-MM-DD format
+    const parts = formatter.formatToParts(new Date());
+    const currentDateEST = `${parts[0].value}-${parts[2].value}-${parts[4].value}`;
+    const gameHasStarted = game.gameDate <= currentDateEST;
+
+    console.log(!gameHasStarted)
+  
+    return (isSlotOwner || isGameCreator) && !gameHasStarted;
+  };
 
   return (
     <div className="p-6 bg-gray-900 text-white rounded-lg w-full">
@@ -87,6 +148,7 @@ export default function PlayGame() {
       <p>Game Name: {game.name}</p>
       <p>Home Team: {game.homeTeam}</p>
       <p>Away Team: {game.awayTeam}</p>
+      <p>Date: {game.gameDate}</p>
 
       <h2 className="text-xl font-bold mt-6 mb-4">Select Your Slot (00-99)</h2>
       <div className="grid grid-cols-10 gap-2">
@@ -111,13 +173,24 @@ export default function PlayGame() {
 
       {selectedSlots.length > 0 && (
         <div className="mt-4">
-          <p className="text-xl">Selected Slots:</p>
+          <p className="text-xl">Your Slots:</p>
           <ul>
             {selectedSlots.map((s, index) => {
-              if (!s || typeof s.slot !== "number") return null; // Prevent errors
+              if (!s || typeof s.slot !== "number") return null;
+
               return (
-                <li key={index} className="text-green-400">
-                  Slot {s.slot.toString().padStart(2, "0")} - Taken
+                <li key={index} className="flex justify-between items-center">
+                  <span className="text-green-400">
+                    Slot {s.slot.toString().padStart(2, "0")}
+                  </span>
+                  {canWithdraw(s) && (
+                    <button
+                      onClick={() => handleWithdrawSlot(s.slot)}
+                      className="ml-2 px-2 py-1 bg-red-500 text-white rounded"
+                    >
+                      Withdraw
+                    </button>
+                  )}
                 </li>
               );
             })}

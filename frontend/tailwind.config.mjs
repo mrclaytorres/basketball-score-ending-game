@@ -7,6 +7,7 @@ export default {
     "./app/components/**/*.{js,ts,jsx,tsx}",
     "./app/dashboard/**/*.{js,ts,jsx,tsx}",
     "./app/game/**/*.{js,ts,jsx,tsx}",
+    "./app/games/**/*.{js,ts,jsx,tsx}",
     "./styles/globals.css"
   ],
   theme: {

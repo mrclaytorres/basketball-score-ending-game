@@ -8,22 +8,22 @@ const migrations = async () => {
   console.log("🚀 Running migrations...");
 
   // Convert old slots format (array of strings) to new format (array of objects)
-  const games = await Game.find({});
+  // const games = await Game.find({});
   
-  for (const game of games) {
-    if (Array.isArray(game.slots) && game.slots.every(s => typeof s === "string")) {
-      console.log(`Updating game: ${game._id}`);
+  // for (const game of games) {
+  //   if (Array.isArray(game.slots) && game.slots.every(s => typeof s === "string")) {
+  //     console.log(`Updating game: ${game._id}`);
       
-      // Convert slot array from ["", "", ""] → [{ slot: 0, userId: null }, { slot: 1, userId: null }, ...]
-      const newSlots = game.slots.map((_, i) => ({ slot: i, userId: null }));
+  //     // Convert slot array from ["", "", ""] → [{ slot: 0, userId: null }, { slot: 1, userId: null }, ...]
+  //     const newSlots = game.slots.map((_, i) => ({ slot: i, userId: null }));
 
-      await Game.updateOne({ _id: game._id }, { $set: { slots: newSlots } });
-    }
-  }
+  //     await Game.updateOne({ _id: game._id }, { $set: { slots: newSlots } });
+  //   }
+  // }
 
   // Fetch the latest schema from MongoDB
   const existingFields = Object.keys(Game.schema.paths);
-  const newFields = ["gameDate"]; // Add any new fields here
+  const newFields = ["locked"]; // Add any new fields here
 
   const missingFields = newFields.filter((field) => !existingFields.includes(field));
 
