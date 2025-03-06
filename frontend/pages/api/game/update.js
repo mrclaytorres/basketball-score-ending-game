@@ -17,7 +17,9 @@ export default async function handler(req, res) {
   await dbConnect();
 
   try {
-    const { gameId, nbaGameId, homeTeam, awayTeam } = req.body;
+    const { gameId, nbaGameId, homeTeam, awayTeam, gameDate } = req.body;
+
+    console.log('gameDate', gameDate)
 
     if (!gameId) {
       return res.status(400).json({ message: 'Missing gameId' });
@@ -33,10 +35,11 @@ export default async function handler(req, res) {
     }
 
     // If an NBA game is being associated, ensure necessary fields are provided
-    if (nbaGameId && homeTeam && awayTeam) {
+    if (nbaGameId && homeTeam && awayTeam && game.gameDate) {
       game.nbaGameId = nbaGameId;
       game.homeTeam = homeTeam;
       game.awayTeam = awayTeam;
+      game.gameDate = gameDate;
     }
     
     await game.save();

@@ -8,9 +8,9 @@ export default function HomePage() {
           View Scores
         </button>
       </a>
-      <a href="/upcoming-schedules" className="mr-4">
+      <a href="/upcoming-games" className="mr-4">
         <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
-          Select Your Slot
+          Schedules
         </button>
       </a>
       <a href="/dashboard" className="mr-4">

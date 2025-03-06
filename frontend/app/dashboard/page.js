@@ -53,7 +53,7 @@ export default function DashboardPage() {
 
     try {
       const res = await fetch(`/api/game/update`, {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -62,6 +62,7 @@ export default function DashboardPage() {
           nbaGameId: selectedGame.GAME_ID,
           homeTeam: selectedGame.HOME_TEAM_ABBREVIATION,
           awayTeam: selectedGame.AWAY_TEAM_ABBREVIATION,
+          gameDate: selectedGame.GAME_DATE,
         }),
       });
 
@@ -108,7 +109,18 @@ export default function DashboardPage() {
               </p>
     
               {game.nbaGameId ? (
-                <p className="text-green-400">NBA Game Associated</p>
+                <>
+                  <p className="text-green-400">{game.gameDate}</p>
+                  <p className="text-green-400">{game.homeTeam} vs {game.awayTeam}</p>
+                  <p className="text-yellow-500 mt-2">Choose a different game schedule:</p>
+                  <div className="overflow-x-auto whitespace-nowrap flex space-x-4 mt-2 p-2 bg-gray-700 rounded-lg">
+                    <DashboardUpcomingGames
+                      onSelect={(selectedGame) =>
+                        handleAssignGame(game._id, selectedGame)
+                      }
+                    />
+                  </div>
+                </>
               ) : (
                 <>
                   <p className="text-yellow-500 mt-2">Assign an NBA Game:</p>
