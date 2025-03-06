@@ -14,7 +14,8 @@ const GameSchema = new mongoose.Schema({
       userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true } 
     }], 
     default: [] 
-  }
+  },
+  locked: { type: Boolean, default: false } // New field to prevent edits after start
 }, { timestamps: true });  // Adds createdAt and updatedAt timestamps
 
 const Game = mongoose.models.Game || mongoose.model('Game', GameSchema);
