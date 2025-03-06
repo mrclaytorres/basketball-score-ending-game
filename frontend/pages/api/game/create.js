@@ -18,7 +18,7 @@ export default async function handler(req, res) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
 
-  const { name, createdBy } = req.body;
+  const { name, createdBy, nbaGameId, homeTeam, awayTeam, gameDate } = req.body;
 
   if (!name) {
     console.error("Missing required fields:", { name });
@@ -31,6 +31,10 @@ export default async function handler(req, res) {
     const newGame = new Game({ 
       name,
       createdBy,
+      nbaGameId,
+      homeTeam,
+      awayTeam,
+      gameDate,
       slots: [],
     });
     await newGame.save();

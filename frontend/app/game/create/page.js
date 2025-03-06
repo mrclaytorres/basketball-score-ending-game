@@ -13,6 +13,7 @@ export default function GameCreatePage() {
   const gameId = searchParams.get("gameId");
   const homeTeam = searchParams.get("homeTeam");
   const awayTeam = searchParams.get("awayTeam");
+  const gameDate = searchParams.get("gameDate");
 
   useEffect(() => {
     const checkSession = async () => {
@@ -39,7 +40,12 @@ export default function GameCreatePage() {
       },
       body: JSON.stringify({ 
         name: gameName,
-        createdBy: session.user.id,}),
+        createdBy: session.user.id,
+        nbaGameId: gameId,
+        homeTeam: homeTeam,
+        awayTeam: awayTeam,
+        gameDate: gameDate,
+      }),
     });
 
     if (res.ok) {
