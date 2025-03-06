@@ -97,7 +97,7 @@ export default function DashboardPage() {
 
           {games.map((game) => (
             <li key={game._id} className="bg-gray-800 p-4 rounded-lg shadow-lg">
-              <Link href={`/game/associate/${game._id}`}>
+              <Link href={`/game/playing/${game._id}`}>
                 <div className="cursor-pointer flex items-center justify-between">
                   <h2 className="text-lg font-semibold">{game.name}</h2>
                   <p className="text-sm text-gray-400">
