@@ -1,4 +1,5 @@
 import '../styles/globals.css'
+import Link from 'next/link';
 
 export const metadata = {
   title: 'Basketball Score Ending Game',
@@ -10,7 +11,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className="min-h-screen bg-gray-100">
         <header className="bg-blue-600 text-white p-4">
+        <Link href="/">
           <h1 className="text-3xl font-bold">Basketball Score Ending Game</h1>
+        </Link>
         </header>
         <main className="p-4">
           {children}

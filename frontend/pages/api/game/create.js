@@ -18,10 +18,10 @@ export default async function handler(req, res) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
 
-  const { name, createdBy, nbaGameId, homeTeam, awayTeam } = req.body;
+  const { name, createdBy } = req.body;
 
-  if (!name || !createdBy || !nbaGameId || !homeTeam || !awayTeam) {
-    console.error("Missing required fields:", { name, createdBy, nbaGameId, homeTeam, awayTeam });
+  if (!name) {
+    console.error("Missing required fields:", { name });
     return res.status(400).json({ message: 'Game name and creator are required' });
   }
 
@@ -31,9 +31,6 @@ export default async function handler(req, res) {
     const newGame = new Game({ 
       name,
       createdBy,
-      nbaGameId,
-      homeTeam,
-      awayTeam,
       slots: Array(100).fill('')  // Initialize 100 slots
     });
     await newGame.save();

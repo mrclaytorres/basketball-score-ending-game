@@ -2,8 +2,10 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "next dev --turbopack",
+    "migrate": "node scripts/migrate.js",
+    "dev": "npm run migrate && next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
