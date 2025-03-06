@@ -35,7 +35,7 @@ export default async function handler(req, res) {
     }
 
     // If an NBA game is being associated, ensure necessary fields are provided
-    if (nbaGameId && homeTeam && awayTeam && game.gameDate) {
+    if (nbaGameId && homeTeam && awayTeam && gameDate) {
       game.nbaGameId = nbaGameId;
       game.homeTeam = homeTeam;
       game.awayTeam = awayTeam;

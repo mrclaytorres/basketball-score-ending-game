@@ -5,12 +5,12 @@ import { getSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import DashboardUpcomingGames from "../components/DashboardUpcomingGames";
+import UpdateSelectedSchedule from "../components/UpdateSelectedSchedule";
 
 export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [games, setGames] = useState([]);
   const router = useRouter();
-  const [selectedGame, setSelectedGame] = useState(null);
   const [session, setSession] = useState(null);
 
   useEffect(() => {
@@ -25,25 +25,26 @@ export default function DashboardPage() {
       }
     };
 
-    // Fetch games for the current user and store it in state
-    const fetchGames = async (userId) => {
-      try {
-        const res = await fetch(`/api/game/list`);
-        if (res.ok) {
-          const data = await res.json();
-          setGames(data);
-        } else {
-          console.error("Failed to fetch games:", res.status, res.statusText);
-        }
-      } catch (error) {
-        console.error("Error fetching games:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     checkSession();
   }, [router]);
+
+  // Fetch games for the current user and store it in state
+  const fetchGames = async (userId) => {
+    try {
+      const res = await fetch(`/api/game/list`);
+      if (res.ok) {
+        const data = await res.json();
+        setGames(data);
+        console.log(data)
+      } else {
+        console.error("Failed to fetch games:", res.status, res.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching games:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleAssignGame = async (gameId, selectedGame) => {
     if (!selectedGame) {
@@ -68,11 +69,7 @@ export default function DashboardPage() {
 
       if (res.ok) {
         alert("NBA Game successfully assigned!");
-        setGames((prevGames) =>
-          prevGames.map((g) =>
-            g._id === gameId ? { ...g, nbaGameId: selectedGame.GAME_ID } : g
-          )
-        );
+        fetchGames();
       } else {
         console.error("Failed to assign NBA game:", res.status, res.statusText);
       }
@@ -100,24 +97,24 @@ export default function DashboardPage() {
 
           {games.map((game) => (
             <li key={game._id} className="bg-gray-800 p-4 rounded-lg shadow-lg">
-
               <Link href={`/game/associate/${game._id}`}>
-                <h2 className="text-lg font-semibold">{game.name}</h2>
+                <div className="cursor-pointer flex items-center justify-between">
+                  <h2 className="text-lg font-semibold">{game.name}</h2>
+                  <p className="text-sm text-gray-400">
+                    Created At: {new Date(game.createdAt).toLocaleString()}
+                  </p>
+                </div>
               </Link>
-              <p className="text-sm text-gray-400">
-                Created At: {new Date(game.createdAt).toLocaleString()}
-              </p>
-    
+
               {game.nbaGameId ? (
                 <>
-                  <p className="text-green-400">{game.gameDate}</p>
-                  <p className="text-green-400">{game.homeTeam} vs {game.awayTeam}</p>
+                  <UpdateSelectedSchedule key={game.nbaGameId} gameSelected={game} />
                   <p className="text-yellow-500 mt-2">Choose a different game schedule:</p>
                   <div className="overflow-x-auto whitespace-nowrap flex space-x-4 mt-2 p-2 bg-gray-700 rounded-lg">
                     <DashboardUpcomingGames
-                      onSelect={(selectedGame) =>
+                      onSelect={(selectedGame) => {
                         handleAssignGame(game._id, selectedGame)
-                      }
+                      }}
                     />
                   </div>
                 </>
@@ -126,9 +123,9 @@ export default function DashboardPage() {
                   <p className="text-yellow-500 mt-2">Assign an NBA Game:</p>
                   <div className="overflow-x-auto whitespace-nowrap flex space-x-4 mt-2 p-2 bg-gray-700 rounded-lg">
                     <DashboardUpcomingGames
-                      onSelect={(selectedGame) =>
+                      onSelect={(selectedGame) => {
                         handleAssignGame(game._id, selectedGame)
-                      }
+                      }}
                     />
                   </div>
                 </>
