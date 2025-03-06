@@ -8,7 +8,13 @@ const GameSchema = new mongoose.Schema({
   homeTeam: { type: String, required: null },   // Stores the home team abbreviation
   awayTeam: { type: String, required: null },   // Stores the away team abbreviation
   gameDate: { type: String, required: null },   // Stores the game date
-  slots: { type: [String], default: Array(100).fill('') }  // 100 slots initialized
+  slots: { 
+    type: [{ 
+      slot: { type: Number, required: true }, 
+      userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true } 
+    }], 
+    default: [] 
+  }
 }, { timestamps: true });  // Adds createdAt and updatedAt timestamps
 
 const Game = mongoose.models.Game || mongoose.model('Game', GameSchema);
