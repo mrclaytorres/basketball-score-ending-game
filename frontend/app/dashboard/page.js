@@ -4,11 +4,13 @@ import React, { useEffect, useState } from "react";
 import { getSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import DashboardUpcomingGames from "../components/DashboardUpcomingGames";
 
 export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [games, setGames] = useState([]);
   const router = useRouter();
+  const [selectedGame, setSelectedGame] = useState(null);
   const [session, setSession] = useState(null);
 
   useEffect(() => {
@@ -42,6 +44,41 @@ export default function DashboardPage() {
 
     checkSession();
   }, [router]);
+
+  const handleAssignGame = async (gameId, selectedGame) => {
+    if (!selectedGame) {
+      alert("Please select an NBA game first.");
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/game/update`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          gameId,
+          nbaGameId: selectedGame.GAME_ID,
+          homeTeam: selectedGame.HOME_TEAM_ABBREVIATION,
+          awayTeam: selectedGame.AWAY_TEAM_ABBREVIATION,
+        }),
+      });
+
+      if (res.ok) {
+        alert("NBA Game successfully assigned!");
+        setGames((prevGames) =>
+          prevGames.map((g) =>
+            g._id === gameId ? { ...g, nbaGameId: selectedGame.GAME_ID } : g
+          )
+        );
+      } else {
+        console.error("Failed to assign NBA game:", res.status, res.statusText);
+      }
+    } catch (error) {
+      console.error("Error assigning NBA game:", error);
+    }
+  };
   
   if (loading) return <p>Loading...</p>;
 
@@ -59,14 +96,34 @@ export default function DashboardPage() {
 
       {games.length > 0 ? (
         <ul className="space-y-4">
+
           {games.map((game) => (
             <li key={game._id} className="bg-gray-800 p-4 rounded-lg shadow-lg">
-              <h2 className="text-lg font-semibold">{game.name}</h2>
+
+              <Link href={`/game/associate/${game._id}`}>
+                <h2 className="text-lg font-semibold">{game.name}</h2>
+              </Link>
               <p className="text-sm text-gray-400">
                 Created At: {new Date(game.createdAt).toLocaleString()}
               </p>
+    
+              {game.nbaGameId ? (
+                <p className="text-green-400">NBA Game Associated</p>
+              ) : (
+                <>
+                  <p className="text-yellow-500 mt-2">Assign an NBA Game:</p>
+                  <div className="overflow-x-auto whitespace-nowrap flex space-x-4 mt-2 p-2 bg-gray-700 rounded-lg">
+                    <DashboardUpcomingGames
+                      onSelect={(selectedGame) =>
+                        handleAssignGame(game._id, selectedGame)
+                      }
+                    />
+                  </div>
+                </>
+              )}
             </li>
           ))}
+
         </ul>
       ) : (
         <p className="text-center text-gray-400">No games found.</p>

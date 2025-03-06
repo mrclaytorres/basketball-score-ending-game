@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
-export default function UpcomingGames() {
+export default function UpcomingGames({ onSelect }) {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState({
@@ -100,7 +100,10 @@ export default function UpcomingGames() {
               <li key={game.GAME_ID} className="mb-2 flex items-center justify-between">
                 <span className="font-bold">{game.GAME_DATE}:{" "}{game.HOME_TEAM_ABBREVIATION} vs {game.AWAY_TEAM_ABBREVIATION}</span>
                 <button
-                  onClick={() => handleCreateGame(game)}
+                  onClick={() => {
+                    handleCreateGame(game)
+                    onSelect(game)
+                  }}
                   className="ml-4 p-2 bg-blue-500 text-white rounded"
                 >
                   Create Betting Game

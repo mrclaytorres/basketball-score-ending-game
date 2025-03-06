@@ -39,10 +39,7 @@ export default function GameCreatePage() {
       },
       body: JSON.stringify({ 
         name: gameName,
-        createdBy: session.user.id,
-        nbaGameId: gameId,
-        homeTeam,
-        awayTeam,}),
+        createdBy: session.user.id,}),
     });
 
     if (res.ok) {
@@ -64,10 +61,6 @@ export default function GameCreatePage() {
           required
           className="border p-2 w-full"
         />
-        <div className="p-4 border bg-gray-100">
-          <p><strong>NBA Game:</strong> {homeTeam} vs {awayTeam}</p>
-          <p><strong>Game ID:</strong> {gameId}</p>
-        </div>
         <button type="submit" className="bg-blue-500 text-white p-2 rounded">
           Create Game
         </button>
