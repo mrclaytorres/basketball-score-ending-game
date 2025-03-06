@@ -43,7 +43,7 @@ export default function UpcomingGames({ onSelect }) {
   }, [filters]);
 
   const handleCreateGame = (game) => {
-    router.push(`/game/create?gameId=${game.GAME_ID}&homeTeam=${game.HOME_TEAM_ABBREVIATION}&awayTeam=${game.AWAY_TEAM_ABBREVIATION}`);
+    router.push(`/game/create?gameId=${game.GAME_ID}&homeTeam=${game.HOME_TEAM_ABBREVIATION}&awayTeam=${game.AWAY_TEAM_ABBREVIATION}&gameDate=${game.GAME_DATE}`);
   };
 
   return (
