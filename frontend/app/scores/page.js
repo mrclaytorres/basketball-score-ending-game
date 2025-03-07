@@ -48,17 +48,14 @@ export default function ScoresPage() {
         console.log(game);
         const gameResults = {};
         ['q1', 'q2', 'q3', 'q4'].forEach((quarter) => {
-          const teamAScore = game[quarter].teamA;
-          const teamBScore = game[quarter].teamB;
-          console.log(teamAScore, teamBScore);
+          const teamAScore = game[quarter].teamA[0];
+          const teamBScore = game[quarter].teamB[0];
           // Get last digits
           const lastDigitA = teamAScore % 10;
           const lastDigitB = teamBScore % 10;
-
           // Determine higher and lower scores
           const higher = teamAScore > teamBScore ? lastDigitA : lastDigitB;
           const lower = teamAScore > teamBScore ? lastDigitB : lastDigitA;
-
           // Form Winning Combination
           const winningCombination = parseInt(`${higher}${lower}`);
 
