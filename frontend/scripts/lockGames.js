@@ -10,10 +10,15 @@ import Game from "../models/Game";
 
 const lockGames = async () => {
   await dbConnect();
-  const currentDate = new Date().toISOString().split("T")[0];
+
+  // Get the current date in YYYY-MM-DD format in EST
+  const options = { timeZone: "America/New_York", year: "numeric", month: "2-digit", day: "2-digit" };
+  const formatter = new Intl.DateTimeFormat("en-CA", options); // "en-CA" ensures YYYY-MM-DD format
+  const parts = formatter.formatToParts(new Date());
+  const currentDateEST = `${parts[0].value}-${parts[2].value}-${parts[4].value}`;
 
   try {
-    await Game.updateMany({ gameDate: { $lt: currentDate } }, { $set: { locked: true } });
+    await Game.updateMany({ gameDate: { $lt: currentDateEST } }, { $set: { locked: true } });
     console.log("✅ Locked all started games.");
   } catch (error) {
     console.error("❌ Failed to lock games:", error);
