@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Image from 'next/image'
 
 export default function ScoresPage() {
   const [scores, setScores] = useState([]);
@@ -82,7 +83,7 @@ export default function ScoresPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {scores.map((game, index) => (
           <div key={index} className="bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
-            <h3 className="text-xl font-semibold text-center">{game.teamA} vs {game.teamB}</h3>
+            <h3 className="text-lg font-semibold text-center flex gap-4 mx-auto items-center justify-center"><Image src={`/assets/logo/${game.teamATriCode}.svg`} width={50} height={50} alt={`${game.teamATriCode}`}/>{game.teamA} vs {game.teamB}<Image src={`/assets/logo/${game.teamBTriCode}.svg`} width={50} height={50} alt={`${game.teamBTriCode}`}/></h3>
             <div className="mt-4 space-y-3">
               {['q1', 'q2', 'q3', 'q4'].map((quarter, qIndex) => (
                 <div key={qIndex} className="p-3 bg-gray-700 rounded-lg">

@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
           <h1 className="text-3xl font-bold">Basketball Score Ending Game</h1>
         </Link>
         </header>
-        <main className="p-4 bg-[#262522] text-white h-screen">
+        <main className="p-4 bg-[#262522] text-white h-full">
           {children}
         </main>
       </body>
