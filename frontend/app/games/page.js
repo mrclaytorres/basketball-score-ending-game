@@ -26,7 +26,7 @@ const GamesList = () => {
   if (loading) return <p className="text-center text-white">Loading games...</p>;
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-gray-900 text-white rounded-lg shadow-lg">
+    <div className="max-w-4xl mx-auto p-6 bg-[#252422] text-white rounded-lg shadow-lg">
       <h2 className="text-2xl font-bold mb-4 text-center">Available Games</h2>
       {games.length === 0 ? (
         <p className="text-center text-gray-400">No games available.</p>

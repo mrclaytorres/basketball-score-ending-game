@@ -62,8 +62,15 @@ export default function DashboardPage() {
           gameId,
           nbaGameId: selectedGame.GAME_ID,
           homeTeam: selectedGame.HOME_TEAM_ABBREVIATION,
+          homeTeamName: selectedGame.HOME_TEAM_NAME,
+          homeTeamCity: selectedGame.HOME_TEAM_CITY,
+          homeTeamSlug: selectedGame.HOME_TEAM_SLUG,
           awayTeam: selectedGame.AWAY_TEAM_ABBREVIATION,
+          awayTeamName: selectedGame.AWAY_TEAM_NAME,
+          awayTeamCity: selectedGame.AWAY_TEAM_CITY,
+          awayTeamSlug: selectedGame.AWAY_TEAM_SLUG,
           gameDate: selectedGame.GAME_DATE,
+          gameTime: selectedGame.GAME_TIME,
         }),
       });
 
@@ -81,7 +88,7 @@ export default function DashboardPage() {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-gray-900 min-h-screen text-white">
+    <div className="max-w-4xl mx-auto p-6 bg-[#252422] min-h-screen text-white">
       <h1 className="text-2xl font-bold mb-6 text-center">My Created Games</h1>
 
       <div className="flex justify-center mb-6">
@@ -110,7 +117,7 @@ export default function DashboardPage() {
                 <>
                   <UpdateSelectedSchedule key={game.nbaGameId} gameSelected={game} />
                   <p className="text-yellow-500 mt-2">Choose a different game schedule:</p>
-                  <div className="overflow-x-auto whitespace-nowrap flex space-x-4 mt-2 p-2 bg-gray-700 rounded-lg">
+                  <div className="overflow-x-auto whitespace-nowrap flex space-x-4 mt-2 p-2 rounded-lg">
                     <DashboardUpcomingGames
                       onSelect={(selectedGame) => {
                         handleAssignGame(game._id, selectedGame)

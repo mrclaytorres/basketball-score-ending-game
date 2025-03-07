@@ -44,10 +44,17 @@ def get_upcoming_games(
             game_info = {
                 "GAME_ID": game["gameId"],
                 "GAME_DATE": game_date,
+                "GAME_TIME": game["gameTimeEst"],
                 "HOME_TEAM_ID": game["homeTeam"]["teamId"],
                 "AWAY_TEAM_ID": game["awayTeam"]["teamId"],
                 "HOME_TEAM_ABBREVIATION": game["homeTeam"]["teamTricode"],
                 "AWAY_TEAM_ABBREVIATION": game["awayTeam"]["teamTricode"],
+                "HOME_TEAM_NAME": game["homeTeam"]["teamName"],
+                "AWAY_TEAM_NAME": game["awayTeam"]["teamName"],
+                "HOME_TEAM_CITY": game["homeTeam"]["teamCity"],
+                "AWAY_TEAM_CITY": game["awayTeam"]["teamCity"],
+                "HOME_TEAM_SLUG": game["homeTeam"]["teamSlug"],
+                "AWAY_TEAM_SLUG": game["awayTeam"]["teamSlug"],
             }
 
             # Filter by team if provided

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -12,7 +12,7 @@ export default function UpcomingGames({ onSelect }) {
     page: 1,
     limit: 10,
     start_date: "",
-    end_date: ""
+    end_date: "",
   });
 
   const router = useRouter();
@@ -28,11 +28,10 @@ export default function UpcomingGames({ onSelect }) {
             page: filters.page,
             limit: filters.limit,
             start_date: filters.start_date,
-            end_date: filters.end_date
+            end_date: filters.end_date,
           },
         });
         setGames(response.data.games.upcoming_games);
-
       } catch (error) {
         console.error("Error fetching games:", error);
       }
@@ -43,7 +42,9 @@ export default function UpcomingGames({ onSelect }) {
   }, [filters]);
 
   const handleCreateGame = (game) => {
-    router.push(`/game/create?gameId=${game.GAME_ID}&homeTeam=${game.HOME_TEAM_ABBREVIATION}&awayTeam=${game.AWAY_TEAM_ABBREVIATION}&gameDate=${game.GAME_DATE}`);
+    router.push(
+      `/game/create?gameId=${game.GAME_ID}&homeTeam=${game.HOME_TEAM_ABBREVIATION}&homeTeamName=${game.HOME_TEAM_NAME}&homeTeamSlug=${game.HOME_TEAM_SLUG}&homeTeamCity=${game.HOME_TEAM_CITY}&awayTeam=${game.AWAY_TEAM_ABBREVIATION}&awayTeamName=${game.AWAY_TEAM_NAME}&awayTeamCity=${game.AWAY_TEAM_CITY}&awayTeamSlug=${game.AWAY_TEAM_SLUG}&gameDate=${game.GAME_DATE}&gameTime=${game.GAME_TIME}`
+    );
   };
 
   return (
@@ -70,7 +71,9 @@ export default function UpcomingGames({ onSelect }) {
         <input
           type="date"
           value={filters.start_date}
-          onChange={(e) => setFilters({ ...filters, start_date: e.target.value })}
+          onChange={(e) =>
+            setFilters({ ...filters, start_date: e.target.value })
+          }
           className="border p-2"
         />
         <input
@@ -81,11 +84,15 @@ export default function UpcomingGames({ onSelect }) {
         />
         <select
           value={filters.limit}
-          onChange={(e) => setFilters({ ...filters, limit: Number(e.target.value) })}
+          onChange={(e) =>
+            setFilters({ ...filters, limit: Number(e.target.value) })
+          }
           className="border p-2"
         >
           {[10, 25, 50, 100, 500].map((limit) => (
-            <option key={limit} value={limit}>{limit} per page</option>
+            <option key={limit} value={limit}>
+              {limit} per page
+            </option>
           ))}
         </select>
       </div>
@@ -97,12 +104,18 @@ export default function UpcomingGames({ onSelect }) {
         <ul className="list-disc pl-5">
           {games.length > 0 ? (
             games.map((game) => (
-              <li key={game.GAME_ID} className="mb-2 flex items-center justify-between">
-                <span className="font-bold">{game.GAME_DATE}:{" "}{game.HOME_TEAM_ABBREVIATION} vs {game.AWAY_TEAM_ABBREVIATION}</span>
+              <li
+                key={game.GAME_ID}
+                className="mb-2 flex items-center justify-between"
+              >
+                <span className="font-bold">
+                  {game.GAME_DATE}: {game.HOME_TEAM_ABBREVIATION} vs{" "}
+                  {game.AWAY_TEAM_ABBREVIATION}
+                </span>
                 <button
                   onClick={() => {
-                    handleCreateGame(game)
-                    onSelect(game)
+                    handleCreateGame(game);
+                    onSelect(game);
                   }}
                   className="ml-4 p-2 bg-blue-500 text-white rounded"
                 >

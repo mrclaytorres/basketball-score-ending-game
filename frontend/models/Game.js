@@ -6,8 +6,15 @@ const GameSchema = new mongoose.Schema({
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   nbaGameId: { type: String, required: null },  // Stores the NBA game ID
   homeTeam: { type: String, required: null },   // Stores the home team abbreviation
+  homeTeamName: { type: String, required: null },   // Stores the home team name
+  homeTeamCity: { type: String, required: null },   // Stores the home team city
+  homeTeamSlug: { type: String, required: null },   // Stores the home team slug
   awayTeam: { type: String, required: null },   // Stores the away team abbreviation
+  awayTeamName: { type: String, required: null },   // Stores the away team name
+  awayTeamCity: { type: String, required: null },   // Stores the away team city
+  awayTeamSlug: { type: String, required: null },   // Stores the away team slug
   gameDate: { type: String, required: null },   // Stores the game date
+  gameTime: { type: String, required: null },   // Stores the game time
   slots: { 
     type: [{ 
       slot: { type: Number, required: true }, 

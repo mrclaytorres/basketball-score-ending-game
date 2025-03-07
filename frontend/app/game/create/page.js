@@ -12,8 +12,15 @@ export default function GameCreatePage() {
   const [session, setSession] = useState(null);
   const gameId = searchParams.get("gameId");
   const homeTeam = searchParams.get("homeTeam");
+  const homeTeamName = searchParams.get("homeTeamName");
+  const homeTeamCity = searchParams.get("homeTeamCity");
+  const homeTeamSlug = searchParams.get("homeTeamSlug");
   const awayTeam = searchParams.get("awayTeam");
+  const awayTeamName = searchParams.get("awayTeamName");
+  const awayTeamCity = searchParams.get("awayTeamCity");
+  const awayTeamSlug = searchParams.get("awayTeamSlug");
   const gameDate = searchParams.get("gameDate");
+  const gameTime = searchParams.get("gameTime");
 
   useEffect(() => {
     const checkSession = async () => {
@@ -42,9 +49,16 @@ export default function GameCreatePage() {
         name: gameName,
         createdBy: session.user.id,
         nbaGameId: gameId,
-        homeTeam: homeTeam,
-        awayTeam: awayTeam,
-        gameDate: gameDate,
+        homeTeam,
+        homeTeamName,
+        homeTeamCity,
+        homeTeamSlug,
+        awayTeam,
+        awayTeamName,
+        awayTeamCity,
+        awayTeamSlug,
+        gameDate,
+        gameTime
       }),
     });
 

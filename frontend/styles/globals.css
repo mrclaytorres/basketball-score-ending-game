@@ -5,3 +5,7 @@
 button {
   transition: background-color 0.2s;
 }
+
+input {
+  color: rgb(24, 24, 24);
+}

@@ -9,6 +9,8 @@ def get_nba_scores():
         
         teamA = game['awayTeam']['teamName']
         teamB = game['homeTeam']['teamName']
+        teamATriCode = game['awayTeam']['teamTricode']
+        teamBTriCode = game['homeTeam']['teamTricode']
 
         q1scoreAway = game['awayTeam']['periods'][0]['score']
         q1scoreHome = game['homeTeam']['periods'][0]['score']
@@ -33,6 +35,8 @@ def get_nba_scores():
             'id': game['gameId'],
             'teamA': teamA,
             'teamB': teamB,
+            'teamATriCode': teamATriCode,
+            'teamBTriCode': teamBTriCode,
             'q1': q1,
             'q2': q2,
             'q3': q3,
