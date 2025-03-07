@@ -62,8 +62,15 @@ export default function DashboardPage() {
           gameId,
           nbaGameId: selectedGame.GAME_ID,
           homeTeam: selectedGame.HOME_TEAM_ABBREVIATION,
+          homeTeamName: selectedGame.HOME_TEAM_NAME,
+          homeTeamCity: selectedGame.HOME_TEAM_CITY,
+          homeTeamSlug: selectedGame.HOME_TEAM_SLUG,
           awayTeam: selectedGame.AWAY_TEAM_ABBREVIATION,
+          awayTeamName: selectedGame.AWAY_TEAM_NAME,
+          awayTeamCity: selectedGame.AWAY_TEAM_CITY,
+          awayTeamSlug: selectedGame.AWAY_TEAM_SLUG,
           gameDate: selectedGame.GAME_DATE,
+          gameTime: selectedGame.GAME_TIME,
         }),
       });
 
