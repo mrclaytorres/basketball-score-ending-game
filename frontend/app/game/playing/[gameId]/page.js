@@ -3,6 +3,9 @@
 import React, { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { getSession } from "next-auth/react";
+import BoxScore from "@/app/components/BoxScore";
+import { formatToEST } from '../../../utils/dateUtils';
+import Image from "next/image";
 
 export default function PlayGame() {
   const params = useParams();
@@ -22,15 +25,13 @@ export default function PlayGame() {
           const data = await res.json();
           setGame(data);
           setSelectedSlots(data.slots || []);
-          
           // Check if game has started (compare gameDate with today)
           const options = { timeZone: "America/New_York", year: "numeric", month: "2-digit", day: "2-digit" };
           const formatter = new Intl.DateTimeFormat("en-CA", options); // "en-CA" ensures YYYY-MM-DD format
           const parts = formatter.formatToParts(new Date());
           const currentDateEST = `${parts[0].value}-${parts[2].value}-${parts[4].value}`;
           setGameStarted(data.gameDate <= currentDateEST);
-
-          console.log(data)
+          
         } else {
           console.error("Game not found");
         }
@@ -136,20 +137,23 @@ export default function PlayGame() {
     const parts = formatter.formatToParts(new Date());
     const currentDateEST = `${parts[0].value}-${parts[2].value}-${parts[4].value}`;
     const gameHasStarted = game.gameDate <= currentDateEST;
-
-    console.log(!gameHasStarted)
   
     return (isSlotOwner || isGameCreator) && !gameHasStarted;
   };
 
   return (
     <div className="p-6 bg-[#252422] text-white rounded-lg w-full">
-      <h2 className="text-2xl font-bold mb-4">Game Details</h2>
-      <p>Game Name: {game.name}</p>
-      <p>Home Team: {game.homeTeam}</p>
-      <p>Away Team: {game.awayTeam}</p>
-      <p>Date: {game.gameDate}</p>
-
+      <div className="flex">
+        <div className="w-1/2">
+          <h2 className="text-2xl font-bold mb-4">Game Details</h2>
+          <p className="mb-3">Game Name: {game.name}</p>
+          <p className="flex items-center gap-1 text-xl"><Image src={`/assets/logo/${game.homeTeam}.svg`} width={50} height={50} alt={`${game.homeTeam}`}/>{game.homeTeam} vs {game.awayTeam}<Image src={`/assets/logo/${game.awayTeam}.svg`} width={50} height={50} alt={`${game.awayTeam}`}/></p>
+          <p className="text-sm">Time: {game.gameDate} {formatToEST(game.gameTime)} EST</p>
+        </div>
+        <div className="w-1/2 justify-center">
+          <BoxScore nbaGameId={game.nbaGameId}/>
+        </div>
+      </div>
       <h2 className="text-xl font-bold mt-6 mb-4">Select Your Slot (00-99)</h2>
       <div className="grid grid-cols-10 gap-2">
         {Array.from({ length: 100 }, (_, i) => {
@@ -163,7 +167,7 @@ export default function PlayGame() {
                   : "bg-gray-300 hover:bg-gray-400 text-black"
               }`}
               onClick={() => !isTaken && handleSlotSelect(i)}
-              disabled={isTaken}
+              disabled={isTaken || gameStarted}
             >
               {i.toString().padStart(2, "0")}
             </button>
