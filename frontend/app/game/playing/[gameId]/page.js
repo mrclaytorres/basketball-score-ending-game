@@ -143,7 +143,7 @@ export default function PlayGame() {
   };
 
   return (
-    <div className="p-6 bg-gray-900 text-white rounded-lg w-full">
+    <div className="p-6 bg-[#252422] text-white rounded-lg w-full">
       <h2 className="text-2xl font-bold mb-4">Game Details</h2>
       <p>Game Name: {game.name}</p>
       <p>Home Team: {game.homeTeam}</p>

@@ -42,7 +42,7 @@ export default function SlotSelectionPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-gray-900 min-h-screen text-white">
+    <div className="max-w-4xl mx-auto p-6 bg-[#252422] min-h-screen text-white">
       {game ? (
         <>
           <h1 className="text-2xl font-bold mb-4">Game: {game.name}</h1>

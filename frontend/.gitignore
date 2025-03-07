@@ -59,3 +59,25 @@ test-timings.json
 
 # Storybook
 *storybook.log
+*.jpg
+*.png
+*.gif
+*.webp
+*.jpeg
+*.svg
+*.ico
+*.bmp
+*.tiff
+*.avif
+*.mp4
+*.webm
+*.ogg
+*.mp3
+*.wav
+*.flac
+*.aac
+*.m4a
+*.flv
+*.mov
+*.wmv
+*.mkv
