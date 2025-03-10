@@ -50,7 +50,8 @@ export default function RightSidebar( {currentPage} ) {
         <div className="p-6 text-lg font-semibold border-b border-gray-700">Menu</div>
         <nav className="flex flex-col p-4 space-y-4">
           <Link href="/dashboard" className="hover:text-blue-400">Dashboard</Link>
-          <Link href="/scores" className="hover:text-blue-400">Create Game</Link>
+          <Link href="/scores" className="hover:text-blue-400">Today's Scores</Link>
+          <Link href="/game/create" className="hover:text-blue-400">Create Game</Link>
           <Link href="/games" className="hover:text-blue-400">Join a Game</Link>
           <Link href="/upcoming-games" className="hover:text-blue-400">Upcoming Games</Link>
           <Link href="/auth/logout" className="hover:text-red-400">Logout</Link>
