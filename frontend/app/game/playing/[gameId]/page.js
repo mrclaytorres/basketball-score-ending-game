@@ -6,6 +6,7 @@ import { getSession } from "next-auth/react";
 import BoxScore from "@/app/components/BoxScore";
 import { formatToEST } from '../../../utils/dateUtils';
 import Image from "next/image";
+import RightSidebar from "@/app/components/RightSidebar";
 
 export default function PlayGame() {
   const params = useParams();
@@ -142,65 +143,68 @@ export default function PlayGame() {
   };
 
   return (
-    <div className="p-6 bg-[#252422] text-white rounded-lg w-full">
-      <div className="flex">
-        <div className="w-1/2">
-          <h2 className="text-2xl font-bold mb-4">Game Details</h2>
-          <p className="mb-3">Game Name: {game.name}</p>
-          <p className="flex items-center gap-1 text-xl"><Image src={`/assets/logo/${game.homeTeam}.svg`} width={50} height={50} alt={`${game.homeTeam}`}/>{game.homeTeam} vs {game.awayTeam}<Image src={`/assets/logo/${game.awayTeam}.svg`} width={50} height={50} alt={`${game.awayTeam}`}/></p>
-          <p className="text-sm">Time: {game.gameDate} {formatToEST(game.gameTime)} EST</p>
+    <>
+      <div className="p-6 bg-[#252422] text-white rounded-lg w-full">
+        <div className="flex">
+          <div className="w-1/2">
+            <h2 className="text-2xl font-bold mb-4">Game Details</h2>
+            <p className="mb-3">Game Name: {game.name}</p>
+            <p className="flex items-center gap-1 text-xl"><Image src={`/assets/logo/${game.homeTeam}.svg`} width={50} height={50} alt={`${game.homeTeam}`}/>{game.homeTeam} vs {game.awayTeam}<Image src={`/assets/logo/${game.awayTeam}.svg`} width={50} height={50} alt={`${game.awayTeam}`}/></p>
+            <p className="text-sm">Time: {game.gameDate} {formatToEST(game.gameTime)} EST</p>
+          </div>
+          <div className="w-1/2 justify-center">
+            <BoxScore nbaGameId={game.nbaGameId}/>
+          </div>
         </div>
-        <div className="w-1/2 justify-center">
-          <BoxScore nbaGameId={game.nbaGameId}/>
+        <h2 className="text-xl font-bold mt-6 mb-4">Select Your Slot (00-99)</h2>
+        <div className="grid grid-cols-10 gap-2">
+          {Array.from({ length: 100 }, (_, i) => {
+            const isTaken = selectedSlots.some((s) => s.slot === i);
+            return (
+              <button
+                key={i}
+                className={`p-4 rounded transition ${
+                  isTaken
+                    ? "bg-red-500 text-white cursor-not-allowed"
+                    : "bg-gray-300 hover:bg-gray-400 text-black"
+                }`}
+                onClick={() => !isTaken && handleSlotSelect(i)}
+                disabled={isTaken || gameStarted}
+              >
+                {i.toString().padStart(2, "0")}
+              </button>
+            );
+          })}
         </div>
-      </div>
-      <h2 className="text-xl font-bold mt-6 mb-4">Select Your Slot (00-99)</h2>
-      <div className="grid grid-cols-10 gap-2">
-        {Array.from({ length: 100 }, (_, i) => {
-          const isTaken = selectedSlots.some((s) => s.slot === i);
-          return (
-            <button
-              key={i}
-              className={`p-4 rounded transition ${
-                isTaken
-                  ? "bg-red-500 text-white cursor-not-allowed"
-                  : "bg-gray-300 hover:bg-gray-400 text-black"
-              }`}
-              onClick={() => !isTaken && handleSlotSelect(i)}
-              disabled={isTaken || gameStarted}
-            >
-              {i.toString().padStart(2, "0")}
-            </button>
-          );
-        })}
-      </div>
 
-      {selectedSlots.length > 0 && (
-        <div className="mt-4">
-          <p className="text-xl">Your Slots:</p>
-          <ul>
-            {selectedSlots.map((s, index) => {
-              if (!s || typeof s.slot !== "number") return null;
+        {selectedSlots.length > 0 && (
+          <div className="mt-4">
+            <p className="text-xl">Your Slots:</p>
+            <ul>
+              {selectedSlots.map((s, index) => {
+                if (!s || typeof s.slot !== "number") return null;
 
-              return (
-                <li key={index} className="flex justify-between items-center">
-                  <span className="text-green-400">
-                    Slot {s.slot.toString().padStart(2, "0")}
-                  </span>
-                  {canWithdraw(s) && (
-                    <button
-                      onClick={() => handleWithdrawSlot(s.slot)}
-                      className="ml-2 px-2 py-1 bg-red-500 text-white rounded"
-                    >
-                      Withdraw
-                    </button>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      )}
-    </div>
+                return (
+                  <li key={index} className="flex justify-between items-center">
+                    <span className="text-green-400">
+                      Slot {s.slot.toString().padStart(2, "0")}
+                    </span>
+                    {canWithdraw(s) && (
+                      <button
+                        onClick={() => handleWithdrawSlot(s.slot)}
+                        className="ml-2 px-2 py-1 bg-red-500 text-white rounded"
+                      >
+                        Withdraw
+                      </button>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        )}
+      </div>
+      <RightSidebar />
+    </>
   );
 }

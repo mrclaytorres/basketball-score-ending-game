@@ -6,6 +6,6 @@ button {
   transition: background-color 0.2s;
 }
 
-input {
+input, select {
   color: rgb(24, 24, 24);
 }
