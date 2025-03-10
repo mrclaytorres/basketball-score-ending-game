@@ -13,7 +13,7 @@ export default async function handler(req, res) {
   const currentDateEST = `${parts[0].value}-${parts[2].value}-${parts[4].value}`;
 
   try {
-    const games = await Game.find({ gameDate: { $gte: currentDateEST } }).select("-slots"); // Exclude slot data
+    const games = await Game.find({ gameDate: { $gte: currentDateEST } }).select("-slots").populate('createdBy', ['_id', 'name']); // Exclude slot data
     res.status(200).json(games);
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch games", error });

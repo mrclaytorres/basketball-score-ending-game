@@ -56,7 +56,7 @@ export default function DashboardUpcomingGames({ onSelect }) {
                   onClick={() => {
                     onSelect(game)
                   }}
-                  className="ml-4 p-2 bg-blue-500 text-white rounded"
+                  className="ml-4 p-2 bg-[#eb5e28] hover:bg-[#e2501b] text-white rounded"
                 >
                   <span className="font-bold">{game.GAME_DATE}:{" "}{game.HOME_TEAM_ABBREVIATION} vs {game.AWAY_TEAM_ABBREVIATION}</span>
                 </button>

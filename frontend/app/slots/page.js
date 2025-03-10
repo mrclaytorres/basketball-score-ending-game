@@ -60,7 +60,7 @@ export default function SlotSelectionPage() {
           <button
             key={i}
             className={`p-10 rounded transition ${
-              selectedSlot === i ? 'bg-blue-500 text-white' : 'bg-gray-300'
+              selectedSlot === i ? 'bg-[#eb5e28] text-white' : 'bg-gray-300'
             }`}
             onClick={() => handleSlotSelect(i)}
           >

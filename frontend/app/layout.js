@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
           <h1 className="text-3xl font-bold">Basketball Ending Last Digit</h1>
         </Link>
         </header>
-        <main className="p-4 bg-[#262522] text-white h-full">
+        <main className="p-4 bg-[#262522] text-white min-h-screen">
           {children}
         </main>
       </body>

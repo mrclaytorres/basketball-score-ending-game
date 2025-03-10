@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { getSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import RightSidebar from "@/app/components/RightSidebar";
 
 export default function GameCreatePage() {
   const [loading, setLoading] = useState(true);
@@ -70,21 +71,24 @@ export default function GameCreatePage() {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Create a Betting Game</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="text"
-          placeholder="Game Name"
-          value={gameName}
-          onChange={(e) => setGameName(e.target.value)}
-          required
-          className="border p-2 w-full"
-        />
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded">
-          Create Game
-        </button>
-      </form>
-    </div>
+    <>
+      <div className="container mx-auto p-4">
+        <h1 className="text-2xl font-bold mb-4">Create a Betting Game</h1>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="text"
+            placeholder="Game Name"
+            value={gameName}
+            onChange={(e) => setGameName(e.target.value)}
+            required
+            className="border p-2 w-full"
+          />
+          <button type="submit" className="bg-[#eb5e28] text-white p-2 rounded">
+            Create Game
+          </button>
+        </form>
+      </div>
+      <RightSidebar />
+    </>
   );
 }

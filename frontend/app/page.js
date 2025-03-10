@@ -30,18 +30,18 @@ export default function HomePage() {
           </button>
         </a>
         <a href="/upcoming-games" className="mr-4">
-          <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+          <button className="bg-[#eb5e28] hover:bg-[#e2501b] text-white py-2 px-4 rounded">
             Schedules
           </button>
         </a>
       {session ? (
         <a href="/dashboard" className="mr-4">
-          <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+          <button className="bg-[#eb5e28] hover:bg-[#e2501b] text-white py-2 px-4 rounded">
             My Dashboard
           </button>
         </a> ) : (
         <a href="/auth/login" className="mr-4">
-          <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+          <button className="bg-[#eb5e28] hover:bg-[#e2501b] text-white py-2 px-4 rounded">
             Login
           </button>
         </a>
