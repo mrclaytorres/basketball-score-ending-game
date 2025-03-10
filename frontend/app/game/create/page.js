@@ -83,7 +83,7 @@ export default function GameCreatePage() {
             required
             className="border p-2 w-full"
           />
-          <button type="submit" className="bg-blue-500 text-white p-2 rounded">
+          <button type="submit" className="bg-[#eb5e28] text-white p-2 rounded">
             Create Game
           </button>
         </form>

@@ -95,7 +95,7 @@ export default function DashboardPage() {
 
         <div className="flex justify-center mb-6">
           <Link href="/game/create">
-            <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition">
+            <button className="px-4 py-2 bg-[#eb5e28] hover:bg-[#e2501b] text-white font-semibold rounded-lg shadow-md transition">
               Create New Game
             </button>
           </Link>

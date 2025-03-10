@@ -120,7 +120,7 @@ export default function UpcomingGames({ onSelect }) {
                       handleCreateGame(game);
                       onSelect(game);
                     }}
-                    className="ml-4 p-2 bg-blue-500 text-white rounded"
+                    className="ml-4 p-2 bg-[#eb5e28] text-white rounded"
                   >
                     Create Betting Game
                   </button>
@@ -137,13 +137,13 @@ export default function UpcomingGames({ onSelect }) {
           <button
             onClick={() => setFilters({ ...filters, page: filters.page - 1 })}
             disabled={filters.page === 1}
-            className="border p-2 bg-gray-200"
+            className="border p-2 bg-gray-800"
           >
             Prev
           </button>
           <button
             onClick={() => setFilters({ ...filters, page: filters.page + 1 })}
-            className="border p-2 bg-gray-200"
+            className="border p-2 bg-gray-800"
           >
             Next
           </button>
