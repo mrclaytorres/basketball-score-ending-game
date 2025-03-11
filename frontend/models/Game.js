@@ -15,6 +15,15 @@ const GameSchema = new mongoose.Schema({
   awayTeamSlug: { type: String, required: null },   // Stores the away team slug
   gameDate: { type: String, required: null },   // Stores the game date
   gameTime: { type: String, required: null },   // Stores the game time
+  nbaGameStatus: { type: String, required: null },   // Stores NBA game status
+  homeGameQuarter1: { type: String, required: null },   // Stores NBA home q1
+  homeGameQuarter2: { type: String, required: null },   // Stores NBA home q2
+  homeGameQuarter3: { type: String, required: null },   // Stores NBA home q3
+  homeGameQuarter4: { type: String, required: null },   // Stores NBA home q4
+  awayGameQuarter1: { type: String, required: null },   // Stores NBA away q1
+  awayGameQuarter2: { type: String, required: null },   // Stores NBA away q2
+  awayGameQuarter3: { type: String, required: null },   // Stores NBA away q3
+  awayGameQuarter4: { type: String, required: null },   // Stores NBA away q4
   slots: { 
     type: [{ 
       slot: { type: Number, required: true }, 

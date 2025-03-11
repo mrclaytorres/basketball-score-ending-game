@@ -7,10 +7,22 @@ const migrations = async () => {
 
   // Fetch the latest schema from MongoDB
   const existingFields = Object.keys(Game.schema.paths);
-  console.log('existingFields', existingFields)
-  const newFields = ["homeTeamName", "homeTeamCity", "homeTeamSlug", "awayTeamName", "awayTeamCity", "awayTeamSlug", "gameTime"]; // Add any new fields here
+  console.log("existingFields", existingFields);
+  const newFields = [
+    "nbaGameStatus",
+    "homeGameQuarter1",
+    "homeGameQuarter2",
+    "homeGameQuarter3",
+    "homeGameQuarter4",
+    "awayGameQuarter1",
+    "awayGameQuarter2",
+    "awayGameQuarter3",
+    "awayGameQuarter4",
+  ]; // Add any new fields here
 
-  const missingFields = newFields.filter((field) => !existingFields.includes(field));
+  const missingFields = newFields.filter(
+    (field) => !existingFields.includes(field)
+  );
 
   if (missingFields.length === 0) {
     console.log("✅ No migrations needed.");
@@ -22,7 +34,10 @@ const migrations = async () => {
   // Update only missing fields
   for (const field of missingFields) {
     console.log(`Updating field: ${field}`);
-    await Game.updateMany({ [field]: { $exists: false } }, { $set: { [field]: null } });
+    await Game.updateMany(
+      { [field]: { $exists: false } },
+      { $set: { [field]: null } }
+    );
   }
 
   console.log("✅ Migration complete.");

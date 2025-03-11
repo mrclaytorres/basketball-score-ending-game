@@ -30,9 +30,16 @@ export default async function handler(req, res) {
       awayTeamSlug,
       gameDate,
       gameTime,
+      nbaGameStatus,
+      homeGameQuarter1,
+      homeGameQuarter2,
+      homeGameQuarter3,
+      homeGameQuarter4,
+      awayGameQuarter1,
+      awayGameQuarter2,
+      awayGameQuarter3,
+      awayGameQuarter4,
     } = req.body;
-
-    console.log("gameDate", gameDate);
 
     if (!gameId) {
       return res.status(400).json({ message: "Missing gameId" });
@@ -60,6 +67,15 @@ export default async function handler(req, res) {
       game.awayTeamSlug = awayTeamSlug;
       game.gameDate = gameDate;
       game.gameTime = gameTime;
+      game.nbaGameStatus = nbaGameStatus;
+      game.homeGameQuarter1 = homeGameQuarter1;
+      game.homeGameQuarter2 = homeGameQuarter2;
+      game.homeGameQuarter3 = homeGameQuarter3;
+      game.homeGameQuarter4 = homeGameQuarter4;
+      game.awayGameQuarter1 = awayGameQuarter1;
+      game.awayGameQuarter2 = awayGameQuarter2;
+      game.awayGameQuarter3 = awayGameQuarter3;
+      game.awayGameQuarter4 = awayGameQuarter4;
     }
 
     await game.save();
