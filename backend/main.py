@@ -36,9 +36,9 @@ async def read_upcoming_games(
     print(f"Received params: start_date={start_date}, end_date={end_date}, team={team_abbreviation}, sort={sort_order}, page={page}, limit={limit}")
     
     # Ensure we are working with strings, not Query objects
-    if start_date == "":
+    if start_date == "" or start_date is None:
         start_date = datetime.today().strftime("%Y-%m-%d")
-    if end_date == "":
+    if end_date == "" or end_date is None:
         end_date = (datetime.today() + timedelta(days=7)).strftime("%Y-%m-%d")
     
     print(start_date)
