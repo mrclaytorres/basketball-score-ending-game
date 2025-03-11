@@ -2,7 +2,9 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
+    "migrate": "node scripts/migrate.js",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
@@ -13,6 +15,8 @@
     "axios": "^1.8.1",
     "bcryptjs": "^3.0.2",
     "dotenv": "^16.4.7",
+    "framer-motion": "^12.4.11",
+    "lucide-react": "^0.479.0",
     "mongoose": "^8.11.0",
     "next": "15.1.7",
     "next-auth": "^4.24.11",
