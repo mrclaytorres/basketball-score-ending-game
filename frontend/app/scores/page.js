@@ -3,6 +3,11 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Image from 'next/image'
 import RightSidebar from '../components/RightSidebar';
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const API_URL = process.env.API_URL
 
 export default function ScoresPage() {
   const [scores, setScores] = useState([]);
@@ -19,7 +24,7 @@ export default function ScoresPage() {
   useEffect(() => {
     const fetchScores = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/scores');
+        const response = await axios.get(`${API_URL}/api/scores`);
         setScores(response.data);
       } catch (error) {
         console.error("Error fetching scores:", error);
