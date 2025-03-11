@@ -14,6 +14,7 @@ export default function DashboardPage() {
   const [games, setGames] = useState([]);
   const router = useRouter();
   const [session, setSession] = useState(null);
+  const [removingGameIds, setRemovingGameIds] = useState(new Set());
 
   useEffect(() => {
     const checkSession = async () => {
@@ -88,8 +89,8 @@ export default function DashboardPage() {
 
   const handleDeleteGame = async (gameId) => {
 
-    // Remove game from UI first for a smooth fadeout transition
-    setGames((prevGames) => prevGames.filter((game) => game._id !== gameId));
+    // Mark game for removal to trigger exit animation
+    setRemovingGameIds((prev) => new Set(prev).add(gameId));
     
     try {
       const res = await fetch(`/api/game/delete`, {
@@ -104,17 +105,34 @@ export default function DashboardPage() {
 
       if (!res.ok) {
         console.error("Failed to delete game:", res.status, res.statusText);
+        
         // Revert UI change if delete fails
-        fetchGames();
+        setRemovingGameIds((prev) => {
+          const newSet = new Set(prev);
+          newSet.delete(gameId);
+          return newSet;
+        });
+
       } else {
-        // Delay re-fetching to allow animation to complete
-        setTimeout(() => fetchGames(), 3000);
+        // Wait for animation before actually removing from state
+        setTimeout(() => {
+          setGames((prevGames) => prevGames.filter((game) => game._id !== gameId));
+          setRemovingGameIds((prev) => {
+            const newSet = new Set(prev);
+            newSet.delete(gameId);
+            return newSet;
+          });
+        }, 900); // Match the exit animation duration
       }
 
     } catch (error) {
       console.error("Request failed:", error);
       // Revert UI change if request fails
-      fetchGames();
+      setRemovingGameIds((prev) => {
+        const newSet = new Set(prev);
+        newSet.delete(gameId);
+        return newSet;
+      });
     }
   }
   
@@ -134,9 +152,11 @@ export default function DashboardPage() {
         </div>
 
         {games.length > 0 ? (
-          <AnimatePresence>
             <ul className="space-y-4">
-              {games.map((game) => (
+              <AnimatePresence>
+              {games
+                .filter((game) => !removingGameIds.has(game._id)) // Prevent immediate removal
+                .map((game) => (
                 <motion.li
                   key={game._id}
                   initial={{ opacity: 0, y: -10 }}
@@ -191,9 +211,8 @@ export default function DashboardPage() {
                   )}
                 </motion.li>
               ))}
-
+              </AnimatePresence>
             </ul>
-          </AnimatePresence>
         ) : (
           <p className="text-center text-gray-400">No games found.</p>
         )}
