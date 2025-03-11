@@ -7,10 +7,13 @@ def get_nba_scores():
 
     for game in games:
         
+        gameStatusText = game['gameStatusText']
         teamA = game['awayTeam']['teamName']
         teamB = game['homeTeam']['teamName']
         teamATriCode = game['awayTeam']['teamTricode']
         teamBTriCode = game['homeTeam']['teamTricode']
+        homeTeamPeriods = game['homeTeam']['periods']
+        awayTeamPeriods = game['awayTeam']['periods']
 
         q1scoreAway = game['awayTeam']['periods'][0]['score']
         q1scoreHome = game['homeTeam']['periods'][0]['score']
@@ -33,8 +36,11 @@ def get_nba_scores():
 
         scores.append({
             'id': game['gameId'],
+            'gameStatusText': gameStatusText,
             'teamA': teamA,
             'teamB': teamB,
+            'teamAPeriods': awayTeamPeriods,
+            'teamBPeriods': homeTeamPeriods,
             'teamATriCode': teamATriCode,
             'teamBTriCode': teamBTriCode,
             'q1': q1,

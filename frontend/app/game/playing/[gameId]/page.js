@@ -7,6 +7,7 @@ import BoxScore from "@/app/components/BoxScore";
 import { formatToEST } from '../../../utils/dateUtils';
 import Image from "next/image";
 import RightSidebar from "@/app/components/RightSidebar";
+import { getCurrentESTDate } from "../../../utils/dateUtils";
 
 export default function PlayGame() {
   const params = useParams();
@@ -27,11 +28,9 @@ export default function PlayGame() {
           setGame(data);
           console.log('PlayGame', data)
           setSelectedSlots(data.slots || []);
+          
           // Check if game has started (compare gameDate with today)
-          const options = { timeZone: "America/New_York", year: "numeric", month: "2-digit", day: "2-digit" };
-          const formatter = new Intl.DateTimeFormat("en-CA", options); // "en-CA" ensures YYYY-MM-DD format
-          const parts = formatter.formatToParts(new Date());
-          const currentDateEST = `${parts[0].value}-${parts[2].value}-${parts[4].value}`;
+          const currentDateEST = getCurrentESTDate()
           setGameStarted(data.gameDate <= currentDateEST);
           
         } else {

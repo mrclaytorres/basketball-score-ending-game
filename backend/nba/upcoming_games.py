@@ -45,6 +45,7 @@ def get_upcoming_games(
                 "GAME_ID": game["gameId"],
                 "GAME_DATE": game_date,
                 "GAME_TIME": game["gameTimeEst"],
+                "GAME_STATUS_TEXT": game["gameStatusText"],
                 "HOME_TEAM_ID": game["homeTeam"]["teamId"],
                 "AWAY_TEAM_ID": game["awayTeam"]["teamId"],
                 "HOME_TEAM_ABBREVIATION": game["homeTeam"]["teamTricode"],
