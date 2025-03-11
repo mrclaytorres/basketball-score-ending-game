@@ -4,12 +4,17 @@ from nba.scores import get_nba_scores
 from nba.upcoming_games import get_upcoming_games
 from typing import Optional
 from datetime import datetime, timedelta
+from dotenv import load_dotenv
+import os
 
 app = FastAPI()
 
+# Get CORS origins from environment variables
+allowed_origins = os.getenv("ALLOW_ORIGINS", "*").split(",")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=allowed_origins,  # Read from env variable
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
