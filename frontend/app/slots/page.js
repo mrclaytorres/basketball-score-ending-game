@@ -1,10 +1,19 @@
 "use client";
-import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
+import React, { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 
 export default function SlotSelectionPage() {
+  return (
+    <Suspense fallback={<p className="text-gray-400">Loading game details...</p>}>
+      <SlotSelectionContent />
+    </Suspense>
+  );
+}
+
+// Extracted component inside Suspense boundary
+function SlotSelectionContent() {
   const searchParams = useSearchParams();
-  const gameId = searchParams.get('gameId');
+  const gameId = searchParams.get("gameId");
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [game, setGame] = useState(null);
 
@@ -29,7 +38,7 @@ export default function SlotSelectionPage() {
     fetchGameDetails();
 
     // Load saved slot from local storage
-    const savedSlot = localStorage.getItem('selectedSlot');
+    const savedSlot = localStorage.getItem("selectedSlot");
     if (savedSlot) {
       setSelectedSlot(parseInt(savedSlot));
     }
@@ -38,7 +47,7 @@ export default function SlotSelectionPage() {
   // Save slot selection to local storage
   const handleSlotSelect = (slot) => {
     setSelectedSlot(slot);
-    localStorage.setItem('selectedSlot', slot);
+    localStorage.setItem("selectedSlot", slot);
   };
 
   return (
@@ -60,18 +69,18 @@ export default function SlotSelectionPage() {
           <button
             key={i}
             className={`p-10 rounded transition ${
-              selectedSlot === i ? 'bg-[#eb5e28] text-white' : 'bg-gray-300'
+              selectedSlot === i ? "bg-[#eb5e28] text-white" : "bg-gray-300"
             }`}
             onClick={() => handleSlotSelect(i)}
           >
-            {i.toString().padStart(2, '0')}
+            {i.toString().padStart(2, "0")}
           </button>
         ))}
       </div>
       {selectedSlot !== null && (
         <div className="mt-4">
           <p className="text-xl">
-            Selected Slot: <strong>{selectedSlot.toString().padStart(2, '0')}</strong>
+            Selected Slot: <strong>{selectedSlot.toString().padStart(2, "0")}</strong>
           </p>
         </div>
       )}
