@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { getSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { motion, AnimatePresence } from "framer-motion";
 import DashboardUpcomingGames from "../components/DashboardUpcomingGames";
 import UpdateSelectedSchedule from "../components/UpdateSelectedSchedule";
 import RightSidebar from "../components/RightSidebar";
@@ -13,6 +14,7 @@ export default function DashboardPage() {
   const [games, setGames] = useState([]);
   const router = useRouter();
   const [session, setSession] = useState(null);
+  const [removingGameIds, setRemovingGameIds] = useState(new Set());
 
   useEffect(() => {
     const checkSession = async () => {
@@ -76,7 +78,6 @@ export default function DashboardPage() {
       });
 
       if (res.ok) {
-        alert("NBA Game successfully assigned!");
         fetchGames();
       } else {
         console.error("Failed to assign NBA game:", res.status, res.statusText);
@@ -85,6 +86,55 @@ export default function DashboardPage() {
       console.error("Error assigning NBA game:", error);
     }
   };
+
+  const handleDeleteGame = async (gameId) => {
+
+    // Mark game for removal to trigger exit animation
+    setRemovingGameIds((prev) => new Set(prev).add(gameId));
+    
+    try {
+      const res = await fetch(`/api/game/delete`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          gameId
+        }),
+      });
+
+      if (!res.ok) {
+        console.error("Failed to delete game:", res.status, res.statusText);
+        
+        // Revert UI change if delete fails
+        setRemovingGameIds((prev) => {
+          const newSet = new Set(prev);
+          newSet.delete(gameId);
+          return newSet;
+        });
+
+      } else {
+        // Wait for animation before actually removing from state
+        setTimeout(() => {
+          setGames((prevGames) => prevGames.filter((game) => game._id !== gameId));
+          setRemovingGameIds((prev) => {
+            const newSet = new Set(prev);
+            newSet.delete(gameId);
+            return newSet;
+          });
+        }, 900); // Match the exit animation duration
+      }
+
+    } catch (error) {
+      console.error("Request failed:", error);
+      // Revert UI change if request fails
+      setRemovingGameIds((prev) => {
+        const newSet = new Set(prev);
+        newSet.delete(gameId);
+        return newSet;
+      });
+    }
+  }
   
   if (loading) return <p>Loading...</p>;
 
@@ -102,47 +152,67 @@ export default function DashboardPage() {
         </div>
 
         {games.length > 0 ? (
-          <ul className="space-y-4">
-
-            {games.map((game) => (
-              <li key={game._id} className="bg-gray-800 p-4 rounded-lg shadow-lg">
-                <Link href={`/game/playing/${game._id}`}>
-                  <div className="cursor-pointer flex items-center justify-between">
-                    <h2 className="text-lg font-semibold">{game.name}</h2>
-                    <p className="text-sm text-gray-400">
-                      Created At: {new Date(game.createdAt).toLocaleString()}
-                    </p>
-                  </div>
-                </Link>
-
-                {game.nbaGameId ? (
-                  <>
-                    <UpdateSelectedSchedule key={game.nbaGameId} gameSelected={game} />
-                    <p className="text-yellow-500 mt-2">Choose a different game schedule:</p>
-                    <div className="overflow-x-auto whitespace-nowrap flex space-x-4 mt-2 p-2 rounded-lg">
-                      <DashboardUpcomingGames
-                        onSelect={(selectedGame) => {
-                          handleAssignGame(game._id, selectedGame)
-                        }}
-                      />
+            <ul className="space-y-4">
+              <AnimatePresence>
+              {games
+                .filter((game) => !removingGameIds.has(game._id)) // Prevent immediate removal
+                .map((game) => (
+                <motion.li
+                  key={game._id}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.9 }}
+                  className="bg-gray-800 p-4 rounded-lg shadow-lg"
+                >
+                  <Link href={`/game/playing/${game._id}`}>
+                    <div className="cursor-pointer flex items-center justify-between">
+                      <div>
+                        <h2 className="text-lg font-semibold">{game.name}</h2>
+                        <p className="text-sm text-gray-400">
+                          Created At: {new Date(game.createdAt).toLocaleString()}
+                        </p>
+                      </div>
+                      <div>
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleDeleteGame(game._id);
+                          }}
+                          className="ml-4 p-2 bg-gray-500 hover:bg-gray-600 text-white rounded"
+                        > Delete Game</button>
+                      </div>
                     </div>
-                  </>
-                ) : (
-                  <>
-                    <p className="text-yellow-500 mt-2">Assign an NBA Game:</p>
-                    <div className="overflow-x-auto whitespace-nowrap flex space-x-4 mt-2 p-2 bg-gray-700 rounded-lg">
-                      <DashboardUpcomingGames
-                        onSelect={(selectedGame) => {
-                          handleAssignGame(game._id, selectedGame)
-                        }}
-                      />
-                    </div>
-                  </>
-                )}
-              </li>
-            ))}
+                  </Link>
 
-          </ul>
+                  {game.nbaGameId ? (
+                    <>
+                      <UpdateSelectedSchedule key={game.nbaGameId} gameSelected={game} />
+                      <p className="text-yellow-500 mt-2">Choose a different game schedule:</p>
+                      <div className="overflow-x-auto whitespace-nowrap flex space-x-4 mt-2 p-2 rounded-lg">
+                        <DashboardUpcomingGames
+                          onSelect={(selectedGame) => {
+                            handleAssignGame(game._id, selectedGame)
+                          }}
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <p className="text-yellow-500 mt-2">Assign an NBA Game:</p>
+                      <div className="overflow-x-auto whitespace-nowrap flex space-x-4 mt-2 p-2 bg-gray-700 rounded-lg">
+                        <DashboardUpcomingGames
+                          onSelect={(selectedGame) => {
+                            handleAssignGame(game._id, selectedGame)
+                          }}
+                        />
+                      </div>
+                    </>
+                  )}
+                </motion.li>
+              ))}
+              </AnimatePresence>
+            </ul>
         ) : (
           <p className="text-center text-gray-400">No games found.</p>
         )}

@@ -23,9 +23,13 @@ export default function BoxScore( { nbaGameId } ) {
 
   useEffect(() => {
 
-    if (scores.lenght > 0) {
-      const foundGame = scores.find(score => score.gameId == nbaGameId );
-      if (foundGame) setGame(foundGame);
+    if (scores.length > 0) {
+
+      const foundGame = scores.find(score => score.id === nbaGameId);
+
+      if (foundGame) {
+        setGame(foundGame);
+      }
     }
   }, [scores, nbaGameId]);
 
