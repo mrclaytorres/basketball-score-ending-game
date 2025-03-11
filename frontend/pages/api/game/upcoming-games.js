@@ -1,15 +1,10 @@
 import axios from 'axios';
-import dotenv from "dotenv";
-
-dotenv.config();
-
-const API_URL = process.env.API_URL
 
 export default async function handler(req, res) {
   const { start_date, end_date, team_abbreviation, sort_order, page, limit } = req.query;
 
   try {
-    const response = await axios.get(`${API_URL}/api/upcoming-games`, {
+    const response = await axios.get('http://localhost:8000/api/upcoming-games', {
       params: { start_date, end_date, team_abbreviation, sort_order, page, limit },
     });
     res.status(200).json(response.data);
