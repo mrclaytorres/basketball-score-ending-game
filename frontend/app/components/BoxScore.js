@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL
+
 export default function BoxScore( { currentGame } ) {
   const [scores, setScores] = useState([]);
   const [game, setGame] = useState({});
@@ -12,7 +14,7 @@ export default function BoxScore( { currentGame } ) {
   useEffect(() => {
     const fetchScores = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/scores');
+        const response = await axios.get(`${API_URL}/api/scores`);
         setScores(response.data);
       } catch (error) {
         console.error("Error fetching scores:", error);
