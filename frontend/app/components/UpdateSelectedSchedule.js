@@ -13,7 +13,7 @@ export default function UpdateSelectedSchedule({ gameSelected }) {
   , [gameSelected]);
 
   return(
-    <div key={game?.nbaGameId}>
+    <div key={game?.nbaGameId} className="py-10">
       <p className="text-green-400">Game Date: {game.gameDate}</p>
       <p className="text-green-400 flex gap-3 items-center"><Image src={`/assets/logo/${game.homeTeam}.svg`} width={50} height={50} alt={`${game.homeTeam}`}/>{game.homeTeam} vs {game.awayTeam}<Image src={`/assets/logo/${game.awayTeam}.svg`} width={50} height={50} alt={`${game.awayTeam}`}/></p>
     </div>
