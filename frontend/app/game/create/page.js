@@ -22,11 +22,19 @@ export default function GameCreatePage() {
   const awayTeamSlug = searchParams.get("awayTeamSlug");
   const gameDate = searchParams.get("gameDate");
   const gameTime = searchParams.get("gameTime");
+  const nbaGameStatus = null;
+  const homeGameQuarter1 = null;
+  const homeGameQuarter2 = null;
+  const homeGameQuarter3 = null;
+  const homeGameQuarter4 = null;
+  const awayGameQuarter1 = null;
+  const awayGameQuarter2 = null;
+  const awayGameQuarter3 = null;
+  const awayGameQuarter4 = null;
 
   useEffect(() => {
     const checkSession = async () => {
       const session = await getSession();
-      console.log("Session:", session);
       if (!session) {
         router.push('/auth/login');
       } else {
@@ -59,7 +67,16 @@ export default function GameCreatePage() {
         awayTeamCity,
         awayTeamSlug,
         gameDate,
-        gameTime
+        gameTime,
+        nbaGameStatus,
+        homeGameQuarter1,
+        homeGameQuarter2,
+        homeGameQuarter3,
+        homeGameQuarter4,
+        awayGameQuarter1,
+        awayGameQuarter2,
+        awayGameQuarter3,
+        awayGameQuarter4,
       }),
     });
 

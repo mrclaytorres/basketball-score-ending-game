@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
-export default function BoxScore( { nbaGameId } ) {
+export default function BoxScore( { currentGame } ) {
   const [scores, setScores] = useState([]);
   const [game, setGame] = useState({});
   const [results, setResults] = useState({});
@@ -25,13 +25,17 @@ export default function BoxScore( { nbaGameId } ) {
 
     if (scores.length > 0) {
 
-      const foundGame = scores.find(score => score.id === nbaGameId);
-
+      const foundGame = scores.find(score => score.id === currentGame.nbaGameId);
       if (foundGame) {
         setGame(foundGame);
       }
+
+      // Update game db quarter scores
+      if (foundGame?.gameStatusText == "Final" && !currentGame.awayGameQuarter4 && !currentGame.homeGameQuarter4) {
+        handlePeriodScoresUpdate(currentGame, foundGame)
+      }
     }
-  }, [scores, nbaGameId]);
+  }, [scores, currentGame]);
 
   // Calculate Results
     useEffect(() => {
@@ -63,7 +67,41 @@ export default function BoxScore( { nbaGameId } ) {
       calculateResults();
     }, [game]);
 
-    console.log("results", results)
+    const handlePeriodScoresUpdate = async (currentGame, foundGame) => {
+      if (!currentGame) {
+        console.log("Game not found.")
+        return;
+      }
+  
+      try {
+        const res = await fetch(`/api/game/update`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            gameId: currentGame._id,
+            nbaGameStatus: foundGame.gameStatusText,
+            homeGameQuarter1: foundGame.teamBPeriods[0].score,
+            homeGameQuarter2: foundGame.teamBPeriods[1].score,
+            homeGameQuarter3: foundGame.teamBPeriods[2].score,
+            homeGameQuarter4: foundGame.teamBPeriods[3].score,
+            awayGameQuarter1: foundGame.teamAPeriods[0].score,
+            awayGameQuarter2: foundGame.teamAPeriods[1].score,
+            awayGameQuarter3: foundGame.teamAPeriods[2].score,
+            awayGameQuarter4: foundGame.teamAPeriods[3].score,
+          }),
+        });
+  
+        if (res.ok) {
+          console.log('Game periods scores successfully updated.')
+        } else {
+          console.error("Failed to assign NBA game:", res.status, res.statusText);
+        }
+      } catch (error) {
+        console.error("Error assigning NBA game:", error);
+      }
+    }
 
   return(
     <div className="flex gap-4">

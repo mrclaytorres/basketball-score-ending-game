@@ -32,6 +32,15 @@ export default async function handler(req, res) {
     awayTeamSlug,
     gameDate,
     gameTime,
+    nbaGameStatus,
+    homeGameQuarter1,
+    homeGameQuarter2,
+    homeGameQuarter3,
+    homeGameQuarter4,
+    awayGameQuarter1,
+    awayGameQuarter2,
+    awayGameQuarter3,
+    awayGameQuarter4,
   } = req.body;
 
   if (!name) {
@@ -58,6 +67,15 @@ export default async function handler(req, res) {
       awayTeamSlug,
       gameDate,
       gameTime,
+      nbaGameStatus,
+      homeGameQuarter1,
+      homeGameQuarter2,
+      homeGameQuarter3,
+      homeGameQuarter4,
+      awayGameQuarter1,
+      awayGameQuarter2,
+      awayGameQuarter3,
+      awayGameQuarter4,
       slots: [],
     });
     await newGame.save();

@@ -25,6 +25,7 @@ export default function PlayGame() {
         if (res.ok) {
           const data = await res.json();
           setGame(data);
+          console.log('PlayGame', data)
           setSelectedSlots(data.slots || []);
           // Check if game has started (compare gameDate with today)
           const options = { timeZone: "America/New_York", year: "numeric", month: "2-digit", day: "2-digit" };
@@ -148,12 +149,13 @@ export default function PlayGame() {
         <div className="flex">
           <div className="w-1/2">
             <h2 className="text-2xl font-bold mb-4">Game Details</h2>
-            <p className="mb-3">Game Name: {game.name}</p>
+            <p className="mb-3 text-xl">Game Name: {game.name}</p>
+            <p className="mb-3 text-lg">Host: {game.createdBy?.name}</p>
             <p className="flex items-center gap-1 text-xl"><Image src={`/assets/logo/${game.homeTeam}.svg`} width={50} height={50} alt={`${game.homeTeam}`}/>{game.homeTeam} vs {game.awayTeam}<Image src={`/assets/logo/${game.awayTeam}.svg`} width={50} height={50} alt={`${game.awayTeam}`}/></p>
-            <p className="text-sm">Time: {game.gameDate} {formatToEST(game.gameTime)} EST</p>
+            <p className="text-sm pt-2">Time: {game.gameDate} {formatToEST(game.gameTime)} EST</p>
           </div>
           <div className="w-1/2 justify-center">
-            <BoxScore nbaGameId={game.nbaGameId}/>
+            <BoxScore currentGame={game} />
           </div>
         </div>
         <h2 className="text-xl font-bold mt-6 mb-4">Select Your Slot (00-99)</h2>

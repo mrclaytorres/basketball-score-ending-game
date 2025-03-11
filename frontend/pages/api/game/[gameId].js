@@ -10,7 +10,7 @@ export default async function handler(req, res) {
   await dbConnect();
 
   try {
-    const game = await Game.findById(gameId);
+    const game = await Game.findById(gameId).populate('createdBy', ['_id', 'name']);
     
     if (!game) {
       return res.status(404).json({ message: 'Game not found' });
