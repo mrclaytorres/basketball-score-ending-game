@@ -3,6 +3,13 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Image from 'next/image'
 import RightSidebar from '../components/RightSidebar';
+<<<<<<< Updated upstream
+=======
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL
+
+console.log(API_URL)
+>>>>>>> Stashed changes
 
 export default function ScoresPage() {
   const [scores, setScores] = useState([]);
