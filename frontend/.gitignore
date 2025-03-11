@@ -59,13 +59,6 @@ test-timings.json
 
 # Storybook
 *storybook.log
-*.jpg
-*.png
-*.gif
-*.webp
-*.jpeg
-*.svg
-*.ico
 *.bmp
 *.tiff
 *.avif
