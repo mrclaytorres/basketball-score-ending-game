@@ -7,7 +7,7 @@ import BoxScore from "@/app/components/BoxScore";
 import { formatToEST } from '../../../utils/dateUtils';
 import Image from "next/image";
 import RightSidebar from "@/app/components/RightSidebar";
-import { getCurrentESTDate } from "../../../utils/dateUtils";
+import { getCurrentESTDate, getCurrentESTTime, toDateTime } from "../../../utils/dateUtils";
 
 export default function PlayGame() {
   const params = useParams();
@@ -31,7 +31,10 @@ export default function PlayGame() {
           
           // Check if game has started (compare gameDate with today)
           const currentDateEST = getCurrentESTDate()
-          setGameStarted(data.gameDate <= currentDateEST);
+          const currentTimeEST = getCurrentESTTime()
+          const currentESTDateTime = toDateTime(currentDateEST, currentTimeEST)
+          const currentGameDateTime = toDateTime(data.gameDate, data.gameTime)
+          setGameStarted(currentGameDateTime <= currentESTDateTime);
           
         } else {
           console.error("Game not found");
@@ -133,11 +136,11 @@ export default function PlayGame() {
     const isGameCreator = game.createdBy?.toString() === user.id?.toString();
     
     // Check if the game has started
-    const options = { timeZone: "America/New_York", year: "numeric", month: "2-digit", day: "2-digit" };
-    const formatter = new Intl.DateTimeFormat("en-CA", options); // "en-CA" ensures YYYY-MM-DD format
-    const parts = formatter.formatToParts(new Date());
-    const currentDateEST = `${parts[0].value}-${parts[2].value}-${parts[4].value}`;
-    const gameHasStarted = game.gameDate <= currentDateEST;
+    const currentDateEST = getCurrentESTDate()
+    const currentTimeEST = getCurrentESTTime()
+    const currentESTDateTime = toDateTime(currentDateEST, currentTimeEST)
+    const currentGameDateTime = toDateTime(game.gameDate, game.gameTime)
+    const gameHasStarted = currentGameDateTime <= currentESTDateTime;
   
     return (isSlotOwner || isGameCreator) && !gameHasStarted;
   };
