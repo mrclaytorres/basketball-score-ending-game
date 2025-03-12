@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react"; // Icons for open/close
+import LogoutButton from "./LogoutButton";
 
 export default function RightSidebar( {currentPage} ) {
   const [isOpen, setIsOpen] = useState(false);
@@ -54,7 +55,7 @@ export default function RightSidebar( {currentPage} ) {
           <Link href="/game/create" className="hover:text-blue-400">Create Game</Link>
           <Link href="/games" className="hover:text-blue-400">Join a Game</Link>
           <Link href="/upcoming-games" className="hover:text-blue-400">Upcoming Games</Link>
-          <Link href="/auth/logout" className="hover:text-red-400">Logout</Link>
+          <LogoutButton />
         </nav>
       </div>
     </div>
