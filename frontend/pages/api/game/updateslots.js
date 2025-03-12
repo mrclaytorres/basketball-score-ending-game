@@ -3,6 +3,7 @@ import dbConnect from '@/lib/db';
 import Game from '@/models/Game';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]';
+import { getCurrentESTDate } from '@/app/utils/dateUtils';
 
 export default async function handler(req, res) {
   if (req.method !== 'PUT') {
@@ -29,10 +30,7 @@ export default async function handler(req, res) {
     }
 
     // Get the current date in YYYY-MM-DD format in EST
-    const options = { timeZone: "America/New_York", year: "numeric", month: "2-digit", day: "2-digit" };
-    const formatter = new Intl.DateTimeFormat("en-CA", options); // "en-CA" ensures YYYY-MM-DD format
-    const parts = formatter.formatToParts(new Date());
-    const currentDateEST = `${parts[0].value}-${parts[2].value}-${parts[4].value}`;
+    const currentDateEST = getCurrentESTDate();
 
     if (game.gameDate < currentDateEST) return res.status(400).json({ message: "Game has already started" });
 
@@ -40,6 +38,7 @@ export default async function handler(req, res) {
       game.slots = selectedSlots.map((s) => ({
         slot: s.slot,
         userId: s.userId,
+        name: s.name,
       }));
     }
     
