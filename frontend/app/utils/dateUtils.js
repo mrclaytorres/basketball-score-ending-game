@@ -57,3 +57,18 @@ export function getCurrentESTDate() {
 
   return currentDateEST
 }
+
+export function toDateTime(dateStr, timeStr) {
+
+  // Extract the time part from the ISO string
+  const time = new Date(timeStr).toISOString().split("T")[1]; // "20:00:00Z"
+  
+  // Convert to a single DateTime string
+  const combinedDateTimeStr = `${dateStr}T${time}`;
+  const combinedDateTime = new Date(combinedDateTimeStr);
+
+  // Timestamp for comparison
+  const timestamp = combinedDateTime.getTime();
+
+  return timestamp;
+}
