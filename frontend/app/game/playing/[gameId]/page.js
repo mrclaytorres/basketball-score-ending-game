@@ -69,7 +69,7 @@ export default function PlayGame() {
       return;
     }
 
-    const updatedSlots = [...selectedSlots, { slot, userId: user.id }]; // Convert to string
+    const updatedSlots = [...selectedSlots, { slot, userId: user.id, name: user.name }]; // Convert to string
     setSelectedSlots(updatedSlots);
 
     try {
@@ -78,7 +78,7 @@ export default function PlayGame() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ gameId, selectedSlots: updatedSlots.map(s => ({ slot: s.slot, userId: s.userId })) }),
+        body: JSON.stringify({ gameId, selectedSlots: updatedSlots.map(s => ({ slot: s.slot, userId: s.userId, name: s.name })) }),
       });
 
       if (!res.ok) {
@@ -161,6 +161,8 @@ export default function PlayGame() {
         <div className="grid grid-cols-10 gap-2">
           {Array.from({ length: 100 }, (_, i) => {
             const isTaken = selectedSlots.some((s) => s.slot === i);
+            const userSlot = selectedSlots.find((s) => s.slot === i);
+            const userName = userSlot ? userSlot.name : null;
             return (
               <button
                 key={i}
@@ -173,6 +175,7 @@ export default function PlayGame() {
                 disabled={isTaken || gameStarted}
               >
                 {i.toString().padStart(2, "0")}
+                {userName && <div className="text-xs mt-1">{userName}</div>}
               </button>
             );
           })}
