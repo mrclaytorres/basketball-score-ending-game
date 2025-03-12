@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import DashboardUpcomingGames from "../components/DashboardUpcomingGames";
 import UpdateSelectedSchedule from "../components/UpdateSelectedSchedule";
 import RightSidebar from "../components/RightSidebar";
-import { getCurrentESTTime, getCurrentESTDate } from "../utils/dateUtils";
+import { getCurrentESTTime, getCurrentESTDate, toDateTime } from "../utils/dateUtils";
 
 export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
@@ -199,14 +199,13 @@ export default function DashboardPage() {
                           gameSelected={game}
                         />
                         <p className="text-yellow-500 mt-2">
-                          {game.gameDate < currentESTDate &&
-                          game.gameTime > currentESTTime
+                          {toDateTime(game.gameDate, game.gameTime) < toDateTime(currentESTDate, currentESTTime)
                             ? "Game already started."
                             : "Choose a different game schedule:"}
                         </p>
 
                         {!(
-                          game.gameDate < currentESTDate && game.gameTime > currentESTTime
+                          toDateTime(game.gameDate, game.gameTime) < toDateTime(currentESTDate, currentESTTime)
                         ) && (
                           <div className="overflow-x-auto whitespace-nowrap flex space-x-4 mt-2 p-2 rounded-lg">
                             <DashboardUpcomingGames
