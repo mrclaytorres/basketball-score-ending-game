@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import HowToPlay from "./components/HowToPlay";
+import LogoutButton from "./components/LogoutButton";
 
 export default function HomePage() {
   const router = useRouter();
@@ -59,7 +60,7 @@ export default function HomePage() {
         </div>
       ) : (
         <div className="mt-4">
-          <a href="/auth/logout" className="text-red-400 hover:underline">Logout</a>
+          <LogoutButton />
         </div>
       )}
       
