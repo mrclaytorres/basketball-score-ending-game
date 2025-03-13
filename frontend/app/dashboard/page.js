@@ -146,10 +146,15 @@ export default function DashboardPage() {
           My Created Games
         </h1>
 
-        <div className="flex justify-center mb-6 xs:w-full">
-          <Link href="/game/create" className="xs:w-full">
-            <button className="px-4 py-2 bg-[#eb5e28] hover:bg-[#e2501b] text-white font-semibold rounded-lg shadow-md transition xs:w-full xs:py-5">
+        <div className="flex justify-center mb-6 w-full gap-4">
+          <Link href="/game/create" className="w-full sm:w-1/2">
+            <button className="px-4 py-2 bg-[#eb5e28] hover:bg-[#e2501b] text-white font-semibold rounded-lg shadow-md transition w-full py-5">
               Create New Game
+            </button>
+          </Link>
+          <Link href="/games" className="w-full sm:w-1/2">
+            <button className="px-4 py-2 bg-[#eb5e28] hover:bg-[#e2501b] text-white font-semibold rounded-lg shadow-md transition w-full py-5">
+              Join a Game
             </button>
           </Link>
         </div>

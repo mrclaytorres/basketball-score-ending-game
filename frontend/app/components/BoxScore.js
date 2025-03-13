@@ -106,7 +106,7 @@ export default function BoxScore( { currentGame } ) {
     }
 
   return(
-    <div className="flex gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:justify-between w-full">
       {['q1', 'q2', 'q3', 'q4'].map((quarter, qIndex) => (
         <div key={qIndex} className="p-3 bg-gray-700 rounded-lg">
           
