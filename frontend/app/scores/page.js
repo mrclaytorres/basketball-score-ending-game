@@ -48,7 +48,6 @@ export default function ScoresPage() {
     const calculateResults = () => {
       const newResults = {};
       scores.forEach((game) => {
-        console.log(game);
         const gameResults = {};
         ['q1', 'q2', 'q3', 'q4'].forEach((quarter) => {
           const teamAScore = game[quarter].teamA[0];

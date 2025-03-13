@@ -26,7 +26,6 @@ export default function PlayGame() {
         if (res.ok) {
           const data = await res.json();
           setGame(data);
-          console.log('PlayGame', data)
           setSelectedSlots(data.slots || []);
           
           // Check if game has started (compare gameDate with today)

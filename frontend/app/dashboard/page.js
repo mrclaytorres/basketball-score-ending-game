@@ -40,7 +40,6 @@ export default function DashboardPage() {
       if (res.ok) {
         const data = await res.json();
         setGames(data);
-        console.log(data);
       } else {
         console.error("Failed to fetch games:", res.status, res.statusText);
       }
