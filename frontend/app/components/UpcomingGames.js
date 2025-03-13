@@ -51,11 +51,11 @@ export default function UpcomingGames({ onSelect }) {
 
   return (
     <>
-      <div className="p-4">
+      <div className="p-0 sm:p-4">
         <h2 className="text-xl font-bold mb-4">Upcoming NBA Games</h2>
 
         {/* Filters */}
-        <div className="mb-4 flex gap-4">
+        <div className="mb-10 sm:mb-4 grid sm:flex gap-4">
           <input
             type="text"
             placeholder="Filter by team (e.g., LAL)"
@@ -104,23 +104,26 @@ export default function UpcomingGames({ onSelect }) {
         {loading ? (
           <p>Loading...</p>
         ) : (
-          <ul className="list-disc pl-5">
+          <ul className="list-disc sm:pl-5">
             {games.length > 0 ? (
               games.map((game) => (
                 <li
                   key={game.GAME_ID}
-                  className="mb-2 flex items-center justify-between"
+                  className="mb-2 grid sm:flex items-center sm:justify-between"
                 >
-                  <span className="font-bold flex gap-3 items-center">
-                    {game.GAME_DATE}: <Image src={`/assets/logo/${game.HOME_TEAM_ABBREVIATION}.svg`} width={50} height={50} alt={`${game.HOME_TEAM_ABBREVIATION}`}/>{game.HOME_TEAM_ABBREVIATION} vs{" "}
-                    {game.AWAY_TEAM_ABBREVIATION}<Image src={`/assets/logo/${game.AWAY_TEAM_ABBREVIATION}.svg`} width={50} height={50} alt={`${game.AWAY_TEAM_ABBREVIATION}`}/>
-                  </span>
+                  <div className="font-bold grid gap-3 items-center m-10 sm:m-5 sm:flex">
+                    <div className="text-center">{game.GAME_DATE}:</div> 
+                    <div className="flex items-center text-2xl justify-between sm:text-base sm:justify-normal">
+                      <Image className="mr-2" src={`/assets/logo/${game.HOME_TEAM_ABBREVIATION}.svg`} width={50} height={50} alt={`${game.HOME_TEAM_ABBREVIATION}`}/>{game.HOME_TEAM_ABBREVIATION} vs{" "}
+                      {game.AWAY_TEAM_ABBREVIATION}<Image className="ml-2" src={`/assets/logo/${game.AWAY_TEAM_ABBREVIATION}.svg`} width={50} height={50} alt={`${game.AWAY_TEAM_ABBREVIATION}`}/>
+                    </div>
+                  </div>
                   <button
                     onClick={() => {
                       handleCreateGame(game);
                       onSelect(game);
                     }}
-                    className="ml-4 p-2 bg-[#eb5e28] text-white rounded"
+                    className="sm:ml-4 p-2 bg-[#eb5e28] text-white rounded"
                   >
                     Create Betting Game
                   </button>

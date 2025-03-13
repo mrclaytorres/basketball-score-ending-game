@@ -14,8 +14,13 @@ export default function RegisterPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('/api/auth/register', form);
-      router.push('/auth/login');
+      const result = await axios.post('/api/auth/register', form);
+
+      if(result.status == 201) {
+        alert("User created successfully");
+        router.push('/auth/login');
+      }
+      
     } catch (error) {
       alert(error.response.data.message);
     }
@@ -23,21 +28,21 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen">
-      <div className="flex items-center justify-center sm:w-1/2">
-        <div className="bg-gray-800 p-10 rounded-lg shadow-md sm:w-1/2 max-w-md">
+      <div className="flex items-center justify-center">
+        <div className="bg-gray-800 p-10 rounded-lg shadow-md sm:w-2/3 max-w-md">
           <h2 className='text-center p-10 text-xl'>Create an Account</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <input className="w-full p-3 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" type="text" name="name" placeholder="Name" onChange={handleChange} required />
             <input className="w-full p-3 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" type="email" name="email" placeholder="Email" onChange={handleChange} required />
             <input className="w-full p-3 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" type="password" name="password" placeholder="Password" onChange={handleChange} required />
             <div className='text-center mt-10'>
-              <button type="submit" className=''>Register</button>
+              <button type="submit" className='hover:underline'>Register</button>
             </div>
           </form>
         </div>
       </div>
       <div className="text-center mt-4">
-        Already have an account?
+        <div>Already have an account?</div>
         <a href="/auth/login" className="m-4 hover:underline">
           Login
         </a>
