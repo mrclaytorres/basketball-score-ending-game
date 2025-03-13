@@ -13,7 +13,6 @@ export default function HomePage() {
   useEffect(() => {
     const checkSession = async () => {
       const session = await getSession();
-      console.log("Session:", session);
       setSession(session);
     };
 
