@@ -7,7 +7,6 @@ const migrations = async () => {
 
   // Fetch the latest schema from MongoDB
   const existingFields = Object.keys(Game.schema.paths);
-  console.log("existingFields", existingFields);
   const newFields = [
     "nbaGameStatus",
     "homeGameQuarter1",
