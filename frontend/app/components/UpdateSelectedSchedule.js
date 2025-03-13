@@ -15,8 +15,8 @@ export default function UpdateSelectedSchedule({ gameSelected }) {
 
   return(
     <div key={game?.nbaGameId} className="py-10">
-      <p className="text-green-400 flex gap-3 items-center text-xl my-4"><Image src={`/assets/logo/${game.homeTeam}.svg`} width={50} height={50} alt={`${game.homeTeam}`}/>{game.homeTeam} vs {game.awayTeam}<Image src={`/assets/logo/${game.awayTeam}.svg`} width={50} height={50} alt={`${game.awayTeam}`}/></p>
-      <p className="text-green-400">Game Date: {game.gameDate} {formatToEST(game.gameTime)}</p>
+      <p className="text-green-400 flex gap-3 items-center text-xl my-4 justify-center sm:justify-normal"><Image src={`/assets/logo/${game.homeTeam}.svg`} width={50} height={50} alt={`${game.homeTeam}`}/>{game.homeTeam} vs {game.awayTeam}<Image src={`/assets/logo/${game.awayTeam}.svg`} width={50} height={50} alt={`${game.awayTeam}`}/></p>
+      <p className="text-green-400 text-center sm:text-left">Game Date: {game.gameDate} {formatToEST(game.gameTime)}</p>
     </div>
   )
 }

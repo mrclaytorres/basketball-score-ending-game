@@ -27,7 +27,7 @@ export default function HomePage() {
         <p className="text-lg text-gray-400">Track NBA scores and pick your winning slots.</p>
       </div>
       
-      <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-6">
+      <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-6 w-full">
         <a href="/scores" className="w-full sm:w-auto">
           <button className="bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-lg w-full sm:w-auto">
             View Scores

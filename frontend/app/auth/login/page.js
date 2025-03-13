@@ -27,8 +27,8 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen">
-      <div className="flex items-center justify-center sm:w-1/2">
-        <div className="bg-gray-800 p-10 rounded-lg shadow-md sm:w-1/2 max-w-md">
+      <div className="flex items-center justify-center">
+        <div className="bg-gray-800 p-10 rounded-lg shadow-md sm:w-2/3 max-w-md">
           <form onSubmit={handleSubmit} className="space-y-4">
             <input
               type="email"
@@ -48,7 +48,7 @@ export default function LoginPage() {
             />
             <button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-md transition duration-300 mb-4"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-md transition duration-300 mb-4 hover:underline"
             >
               Login
             </button>
@@ -56,10 +56,12 @@ export default function LoginPage() {
         </div>
       </div>
       <div className="text-center mt-4">
-        Don't have an account?
-        <a href="/auth/register" className="m-4 hover:underline">
-          Register
-        </a>
+        <div className='pr-5'>Don't have an account?</div>
+        <div>
+          <a href="/auth/register" className="hover:underline">
+            Register
+          </a>
+        </div>
       </div>
     </div>
   );
