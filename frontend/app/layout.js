@@ -18,9 +18,9 @@ export default function RootLayout({ children }) {
               width={0}
               height={0}
               sizes="100vh"
-              style={{ width: '50%', height: 'auto' }} 
+              // style={{ width: '50%', height: 'auto' }}
               alt="Basketball Ending Last Digits"
-              className="mx-auto"/>
+              className="mx-auto h-auto w-full sm:w-1/2"/>
           </h1>
         </Link>
         </header>

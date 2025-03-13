@@ -107,7 +107,7 @@ function GameCreateForm({ session }) {
         required
         className="border p-2 w-full"
       />
-      <button type="submit" className="bg-[#eb5e28] text-white p-2 rounded">
+      <button type="submit" className="bg-[#eb5e28] text-white p-2 rounded w-full sm:w-1/5">
         Create Game
       </button>
     </form>

@@ -11,7 +11,11 @@ export default {
     "./styles/globals.css"
   ],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        xs: "480px"
+      }
+    }
   },
-  plugins: [],
+  plugins: []
 }

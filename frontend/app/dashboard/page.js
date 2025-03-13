@@ -146,9 +146,9 @@ export default function DashboardPage() {
           My Created Games
         </h1>
 
-        <div className="flex justify-center mb-6">
-          <Link href="/game/create">
-            <button className="px-4 py-2 bg-[#eb5e28] hover:bg-[#e2501b] text-white font-semibold rounded-lg shadow-md transition">
+        <div className="flex justify-center mb-6 xs:w-full">
+          <Link href="/game/create" className="xs:w-full">
+            <button className="px-4 py-2 bg-[#eb5e28] hover:bg-[#e2501b] text-white font-semibold rounded-lg shadow-md transition xs:w-full xs:py-5">
               Create New Game
             </button>
           </Link>
@@ -169,21 +169,21 @@ export default function DashboardPage() {
                     className="bg-gray-800 p-4 rounded-lg shadow-lg"
                   >
                     <Link href={`/game/playing/${game._id}`}>
-                      <div className="cursor-pointer flex items-center justify-between">
+                      <div className="cursor-pointer flex flex-col-reverse justify-between sm:flex-row">
                         <div>
-                          <h2 className="text-lg font-semibold">{game.name}</h2>
-                          <p className="text-sm text-gray-400">
+                          <h2 className="text-lg font-semibold text-left">{game.name}</h2>
+                          <p className="text-sm text-gray-400 text-left">
                             Created At:{" "}
                             {new Date(game.createdAt).toLocaleString()}
                           </p>
                         </div>
-                        <div>
+                        <div className="text-right">
                           <button
                             onClick={(e) => {
                               e.preventDefault();
                               handleDeleteGame(game._id);
                             }}
-                            className="ml-4 p-2 bg-gray-500 hover:bg-gray-600 text-white rounded"
+                            className="ml-4 p-2 bg-gray-600 hover:bg-gray-600 text-white rounded opacity-50 hover:opacity-100"
                           >
                             {" "}
                             Delete Game

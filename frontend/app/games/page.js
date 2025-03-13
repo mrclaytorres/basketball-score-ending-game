@@ -37,18 +37,20 @@ const GamesList = () => {
         ) : (
           <ul className="space-y-4">
             {games.map((game) => (
-              <li key={game._id} className="bg-gray-800 p-4 rounded-lg shadow-md hover:bg-gray-700 transition flex justify-between">
+              <li key={game._id} className="bg-gray-800 p-4 rounded-lg shadow-md hover:bg-gray-700 transition">
                 <div>
-                  <h3 className="text-xl font-semibold">{game.name}</h3>
-                  <p className="text-gray-300 flex gap-2 items-center py-3 font-semibold"><Image src={`/assets/logo/${game.homeTeam}.svg`} width={50} height={50} alt={`${game.homeTeam}`}/>{game.homeTeam} vs {game.awayTeam}<Image src={`/assets/logo/${game.awayTeam}.svg`} width={50} height={50} alt={`${game.awayTeam}`}/></p>
-                  <p className="text-gray-300 flex gap-2 items-center pb-3">{game.gameDate} {game.gameTime ? `- ${formatToEST(game.gameTime)}` : null}</p>
+                  <div className="flex justify-between">
+                    <h3 className="text-xl font-semibold">{game.name}</h3>
+                    <p className="text-right">Host: {game.createdBy?.name}</p>
+                  </div>
+                  <p className="text-gray-300 flex gap-2 items-center py-5 font-semibold justify-center sm:justify-normal"><Image src={`/assets/logo/${game.homeTeam}.svg`} width={50} height={50} alt={`${game.homeTeam}`}/>{game.homeTeam} vs {game.awayTeam}<Image src={`/assets/logo/${game.awayTeam}.svg`} width={50} height={50} alt={`${game.awayTeam}`}/></p>
+                  <p className="text-gray-300 flex gap-2 items-center pb-3 justify-center sm:justify-normal">{game.gameDate} {game.gameTime ? `- ${formatToEST(game.gameTime)}` : null}</p>
                   <a href={`/game/playing/${game._id}`} 
-                    className="mt-2 inline-block bg-[#eb5e28] hover:bg-[#e2501b] text-white px-4 py-2 rounded transition"
+                    className="mt-2 bg-[#eb5e28] hover:bg-[#e2501b] text-white px-4 py-2 rounded transition flex justify-center sm:inline-block sm:justify-normal"
                   >
                     Join Game
                     </a>
                 </div>
-                <div><p>Host: {game.createdBy?.name}</p></div>
               </li>
             ))}
           </ul>
