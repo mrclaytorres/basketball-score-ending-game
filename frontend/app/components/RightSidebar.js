@@ -1,18 +1,31 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
+import { getSession } from "next-auth/react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react"; // Icons for open/close
 import LogoutButton from "./LogoutButton";
 
-export default function RightSidebar( {currentPage} ) {
+export default function RightSidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const sidebarRef = useRef(null)
+  const [session, setSession] = useState(null);
 
   // Toggle Sidebar
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const session = await getSession();
+      if (session) {
+        setSession(session);
+      }
+    };
+
+    checkSession();
+  }, []);
 
   // Close Sidebar if Clicked Outside
   useEffect(() => {
@@ -55,7 +68,7 @@ export default function RightSidebar( {currentPage} ) {
           <Link href="/game/create" className="hover:text-blue-400">Create Game</Link>
           <Link href="/games" className="hover:text-blue-400">Join a Game</Link>
           <Link href="/upcoming-games" className="hover:text-blue-400">Upcoming Games</Link>
-          <LogoutButton />
+          {!session ? null : <LogoutButton />}
         </nav>
       </div>
     </div>
