@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "migrate": "node scripts/migrate.js",
+    "migrate-user": "node scripts/migrateUser.js",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",

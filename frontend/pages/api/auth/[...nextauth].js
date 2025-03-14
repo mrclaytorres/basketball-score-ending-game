@@ -24,6 +24,7 @@ export const authOptions = {
         }
 
         const isValid = await bcrypt.compare(credentials.password, user.password);
+
         if (!isValid) {
           throw new Error("Invalid email or password");
         }
