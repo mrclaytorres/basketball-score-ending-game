@@ -56,6 +56,8 @@ export default function HomePage() {
         <div className="text-center text-gray-300">
           Don't have an account? 
           <a href="/auth/register" className="text-blue-400 hover:underline ml-2">Register</a>
+          <br />
+          <a href="/forgot-password" className="text-blue-400 hover:underline ml-2">Forgot Password</a>          
         </div>
       ) : (
         <div className="mt-4">
