@@ -1,4 +1,3 @@
-import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import { sendEmail } from "@/app/utils/email";
 import User from "@/models/User";
@@ -15,7 +14,10 @@ export default async function handler(req, res) {
 
   // Generate reset token
   const resetToken = crypto.randomBytes(32).toString("hex");
-  const hashedToken = bcrypt.hashSync(resetToken, 10);
+
+  // Hash the token to store in DB
+  const hashedToken = crypto.createHash("sha256").update(resetToken).digest("hex");
+
   user.resetPasswordToken = hashedToken;
   user.resetPasswordExpires = Date.now() + 3600000; // 1 hour expiration
   await user.save();
