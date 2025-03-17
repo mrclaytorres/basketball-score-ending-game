@@ -156,6 +156,7 @@ export default function PlayGame() {
             <p className="text-sm pt-2">Time: {game.gameDate} {formatToEST(game.gameTime)} EST</p>
           </div>
           <div className="w-full justify-center sm:col-span-2">
+            <p className="pb-3">Status: {game.gameStatusText ? game.gameStatusText : (gameStarted ? "Game already started.": "Game not yet started.")}</p>
             <BoxScore currentGame={game} />
           </div>
         </div>
