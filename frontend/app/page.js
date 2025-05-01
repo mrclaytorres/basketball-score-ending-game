@@ -5,6 +5,7 @@ import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import HowToPlay from "./components/HowToPlay";
 import LogoutButton from "./components/LogoutButton";
+import Socials from "./components/Socials";
 
 export default function HomePage() {
   const router = useRouter();
@@ -67,6 +68,9 @@ export default function HomePage() {
       
       <div className="mt-10 w-full max-w-4xl">
         <HowToPlay />
+      </div>
+      <div className="mt-10 w-full max-w-4xl">
+        <Socials />
       </div>
     </div>
   );
